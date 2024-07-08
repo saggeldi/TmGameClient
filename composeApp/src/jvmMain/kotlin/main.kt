@@ -32,6 +32,8 @@ import tmgame.composeapp.generated.resources.Res
 import tmgame.composeapp.generated.resources.splash
 import java.util.prefs.Preferences
 
+
+
 fun main() = application {
     val settingsRepository: SettingsRepository by lazy {
         val preferences = Preferences.userRoot()
@@ -50,7 +52,7 @@ fun main() = application {
     } else {
         Window(
             title = "TmGame",
-            state = rememberWindowState(position = WindowPosition(Alignment.Center), placement = WindowPlacement.Fullscreen),
+            state = rememberWindowState(position = WindowPosition(Alignment.Center), placement = WindowPlacement.Maximized),
             onCloseRequest = ::exitApplication,
         ) {
             App(

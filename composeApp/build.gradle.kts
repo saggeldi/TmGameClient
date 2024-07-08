@@ -44,6 +44,7 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.ktor.json)
+            implementation(kotlin("reflect"))
         }
 
         commonTest.dependencies {
@@ -76,6 +77,10 @@ compose.desktop {
             packageName = "com.game.tm.desktopApp"
             packageVersion = "1.0.0"
             appResourcesRootDir.dir(project.rootDir.toPath().pathString + "assets")
+        }
+
+        buildTypes.release.proguard {
+            isEnabled.set(false)
         }
     }
 }

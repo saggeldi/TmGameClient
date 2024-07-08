@@ -49,8 +49,10 @@ import cafe.adriel.voyager.koin.koinNavigatorScreenModel
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.game.tm.Test
 import com.game.tm.components.GlassBackground
 import com.game.tm.components.MainScreen
+import com.game.tm.core.translateValue
 import com.game.tm.features.auth.presentation.viewmodel.AuthViewModel
 import com.game.tm.theme.AppTheme
 import org.jetbrains.compose.resources.painterResource
@@ -169,6 +171,8 @@ fun AuthScreen() {
                 modifier = Modifier.weight(1f).fillMaxHeight(),
                 contentAlignment = Alignment.Center
             ) {
+                val test = Test()
+
                 Image(
                     painter = painterResource(Res.drawable.auth),
                     contentDescription = null,

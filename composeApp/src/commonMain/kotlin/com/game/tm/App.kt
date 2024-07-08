@@ -29,6 +29,7 @@ import com.game.tm.components.PlayerDemo
 import com.game.tm.components.Router
 import com.game.tm.components.Sidebar
 import com.game.tm.core.SettingConfig
+import com.game.tm.core.translateValue
 import com.game.tm.features.auth.di.initKoin
 import com.game.tm.features.game.data.entity.GameRequest
 import com.game.tm.features.game.presentation.ui.GameTab
@@ -41,7 +42,10 @@ import org.jetbrains.compose.resources.ResourceEnvironment
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.KoinContext
 import java.util.Locale
-
+data class Test(
+    val name_tm: String = "Salam",
+    val name_ru: String = "Privet",
+)
 @Composable
 internal fun App(
     settings: List<SettingConfig<*>>,
@@ -62,6 +66,9 @@ internal fun App(
            }
        ) {
            val language = LocalAppLanguage.current
+
+
+
            LaunchedEffect(language.value) {
                Locale.setDefault(Locale.forLanguageTag(language.value))
            }
