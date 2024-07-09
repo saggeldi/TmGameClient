@@ -9,6 +9,9 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import com.game.tm.features.profile.presentation.viewmodel.AppSettingsStore
+import com.game.tm.features.profile.presentation.viewmodel.ThemeMode
+import org.koin.compose.koinInject
 
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
@@ -81,7 +84,10 @@ internal fun AppTheme(
     content: @Composable() () -> Unit
 ) {
     val systemIsDark = isSystemInDarkTheme()
-    val isDarkState = rememberSaveable { mutableStateOf(systemIsDark) }
+    val appSettingsStore = koinInject<AppSettingsStore>()
+    val isDarkState = rememberSaveable {
+        mutableStateOf(if(appSettingsStore.getMode()==ThemeMode.SYSTEM) systemIsDark else appSettingsStore.getMode() == ThemeMode.DARK)
+    }
     CompositionLocalProvider(
         LocalThemeIsDark provides isDarkState
     ) {

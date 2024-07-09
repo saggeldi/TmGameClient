@@ -1,5 +1,6 @@
 package com.game.tm.features.game.presentation.ui.details
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,6 +18,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -37,6 +40,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -53,13 +57,19 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinNavigatorScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import coil3.ImageLoader
+import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
 import com.game.tm.components.AppError
 import com.game.tm.components.AppLoading
+import com.game.tm.core.Constant
+import com.game.tm.core.translateValue
 import com.game.tm.features.auth.presentation.viewmodel.AuthSettings
 import com.game.tm.features.game.data.entity.details.Server
 import com.game.tm.features.game.presentation.viewmodel.GameViewModel
 import com.game.tm.openUrl
 import com.game.tm.theme.LocalThemeIsDark
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
@@ -94,12 +104,15 @@ class GameDetailScreen(
 
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GameDetails(id: String) {
     val navigator = LocalNavigator.currentOrThrow
     val clipboard = LocalClipboardManager.current
     val viewModel = navigator.koinNavigatorScreenModel<GameViewModel>()
     val state = viewModel.singleGameState.collectAsState()
+    val context = LocalPlatformContext.current
+    val coroutine = rememberCoroutineScope()
     LaunchedEffect(id) {
         viewModel.getGameById(id)
     }
@@ -110,6 +123,8 @@ fun GameDetails(id: String) {
         AppError(message = state.value.error.toString())
     } else {
         state.value.data?.let { game->
+            val images = game.assets.filter { it.type == "image" }
+            val pagerState = rememberPagerState { images.count() }
             Column(modifier = Modifier.fillMaxSize()) {
                 Spacer(Modifier.height(22.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -126,7 +141,7 @@ fun GameDetails(id: String) {
                     }
                     Spacer(Modifier.width(22.dp))
                     Text(
-                        game.title_tm,
+                        translateValue(game, "title"),
                         style = MaterialTheme.typography.headlineMedium.copy(
                             fontWeight = FontWeight.Bold
                         ),
@@ -135,39 +150,42 @@ fun GameDetails(id: String) {
                 }
                 Row(Modifier.fillMaxSize()) {
                     Column(Modifier.verticalScroll(rememberScrollState()).weight(70f).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                        Box(modifier = Modifier.fillMaxWidth().height(360.dp)) {
-                            Image(
-                                painter = painterResource(Res.drawable.p0),
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .clip(RoundedCornerShape(32.dp))
-                            )
-                            Box(
-                                Modifier.fillMaxSize().clip(RoundedCornerShape(32.dp)).background(
-                                    brush = Brush.verticalGradient(
-                                        colors = listOf(
-                                            Color.Transparent,
-                                            MaterialTheme.colorScheme.primary,
+                        HorizontalPager(pagerState, pageSpacing = 12.dp, beyondBoundsPageCount = 2) { index->
+                            Box(modifier = Modifier.fillMaxWidth().height(360.dp)) {
+                                AsyncImage(
+                                    model = "${Constant.BASE_URL}/${images[index].url}",
+                                    imageLoader = ImageLoader(context),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clip(RoundedCornerShape(32.dp)),
+                                )
+                                Box(
+                                    Modifier.fillMaxSize().clip(RoundedCornerShape(32.dp)).background(
+                                        brush = Brush.verticalGradient(
+                                            colors = listOf(
+                                                Color.Transparent,
+                                                MaterialTheme.colorScheme.primary,
+                                            )
                                         )
                                     )
                                 )
-                            )
+                            }
                         }
                         LazyRow(
                             horizontalArrangement = Arrangement.spacedBy(22.dp)
                         ) {
-                            items(listOf(
-                                Res.drawable.p0, Res.drawable.p2, Res.drawable.p3,
-                                Res.drawable.p0, Res.drawable.p2, Res.drawable.p3
-                            )) {
-                                Image(
-                                    painter = painterResource(it),
+                            items(images.count()) {
+                                AsyncImage(
+                                    model = "${Constant.BASE_URL}/${images[it].url}",
+                                    imageLoader = ImageLoader(context),
                                     contentDescription = null,
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier.size(140.dp).clip(RoundedCornerShape(12.dp)).clickable {
-
+                                        coroutine.launch {
+                                            pagerState.scrollToPage(it)
+                                        }
                                     }
                                 )
                             }
@@ -175,12 +193,12 @@ fun GameDetails(id: String) {
 
                         GameText(
                             title = stringResource(Res.string.category),
-                            content = game.category.name_tm,
+                            content = translateValue(game.category, "name"),
                         )
 
                         GameText(
                             title = stringResource(Res.string.description),
-                            content = game.desc_tm,
+                            content = translateValue(game, "desc"),
                         )
 
                     }

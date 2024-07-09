@@ -21,8 +21,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.LocalLocalization
+import androidx.compose.ui.platform.LocalPlatformTextInputMethodOverride
+import androidx.compose.ui.platform.PlatformLocalization
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.tab.TabNavigator
+import coil3.compose.LocalPlatformContext
 import com.game.tm.components.GlassBackground
 import com.game.tm.components.MainRoute
 import com.game.tm.components.PlayerDemo
@@ -38,46 +44,52 @@ import com.game.tm.state.LocalGameState
 import com.game.tm.state.LocalRouter
 import com.game.tm.state.RouterEnum
 import com.game.tm.theme.AppTheme
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.ResourceEnvironment
+import org.jetbrains.compose.resources.getSystemResourceEnvironment
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.KoinContext
 import java.util.Locale
+import java.util.spi.LocaleServiceProvider
+
 data class Test(
     val name_tm: String = "Salam",
     val name_ru: String = "Privet",
 )
+
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun App(
     settings: List<SettingConfig<*>>,
     onClearSettings: () -> Unit,
 ) {
-    var settingConfig by remember { mutableStateOf(settings.first()) }
-    var enableLoggingChecked by remember { mutableStateOf(settingConfig.isLoggingEnabled) }
 
     initKoin()
 
-   KoinContext {
-       CompositionLocalProvider(
-           LocalAppLanguage provides remember {
-               mutableStateOf("tm")
-           },
-           LocalGameState provides remember {
-               mutableStateOf(GameRequest())
-           }
-       ) {
-           val language = LocalAppLanguage.current
+    KoinContext {
+        CompositionLocalProvider(
+            LocalAppLanguage provides remember {
+                mutableStateOf("tm")
+            },
+            LocalGameState provides remember {
+                mutableStateOf(GameRequest())
+            }
+        ) {
+            val language = LocalAppLanguage.current
+            val rtl = remember {
+                mutableStateOf(LayoutDirection.Ltr)
+            }
+            LaunchedEffect(language.value) {
+                Locale.setDefault(Locale.forLanguageTag(language.value))
+            }
+            CompositionLocalProvider(
+                LocalLayoutDirection provides rtl.value
+            ) {
+                MainRoute()
+            }
 
-
-
-           LaunchedEffect(language.value) {
-               Locale.setDefault(Locale.forLanguageTag(language.value))
-           }
-           key(language.value) {
-               MainRoute()
-           }
-       }
-   }
-
+        }
+    }
 
 
 }

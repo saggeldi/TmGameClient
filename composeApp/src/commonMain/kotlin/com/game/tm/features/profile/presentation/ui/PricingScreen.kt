@@ -178,7 +178,7 @@ fun PricingItem(
     value: String,
     onClick: (String) -> Unit
 ) {
-    val color = if(selected) MaterialTheme.colorScheme.onSurface else Color.White
+    val color = if(selected) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface
     val shape = RoundedCornerShape(16.dp)
     val brush = if(selected) Brush.verticalGradient(
         colors = listOf(

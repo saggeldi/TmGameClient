@@ -32,11 +32,14 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import com.game.tm.features.profile.presentation.viewmodel.AppSettingsStore
+import com.game.tm.features.profile.presentation.viewmodel.ThemeMode
 import com.game.tm.state.LocalAppLanguage
 import com.game.tm.state.Routes
 import com.game.tm.theme.LocalThemeIsDark
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import tmgame.composeapp.generated.resources.Res
 import tmgame.composeapp.generated.resources.app_name
 import tmgame.composeapp.generated.resources.dark
@@ -137,6 +140,7 @@ fun ProfileScreen() {
     val isDark = LocalThemeIsDark.current
     val isSystem = isSystemInDarkTheme()
     val language = LocalAppLanguage.current
+    val settingsStore = koinInject<AppSettingsStore>()
     Column(
         Modifier.verticalScroll(rememberScrollState()).fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -166,12 +170,15 @@ fun ProfileScreen() {
                 when(value) {
                     0 -> {
                         isDark.value = false
+                        settingsStore.saveMode(ThemeMode.LIGHT)
                     }
                     1 -> {
                         isDark.value = true
+                        settingsStore.saveMode(ThemeMode.DARK)
                     }
                     2 -> {
                         isDark.value = isSystem
+                        settingsStore.saveMode(ThemeMode.SYSTEM)
                     }
                 }
             }
@@ -190,7 +197,7 @@ fun ProfileScreen() {
                         language.value = "tm"
                     }
                     1 -> {
-
+                        language.value = "en"
                     }
                     2 -> {
                         language.value = "ru"

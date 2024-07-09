@@ -29,6 +29,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -51,8 +52,11 @@ import com.game.tm.features.category.presentation.ui.CategoryTab
 import com.game.tm.features.game.presentation.ui.GameTab
 import com.game.tm.features.profile.presentation.ui.PricingScreen
 import com.game.tm.features.profile.presentation.ui.ProfileTab
+import com.game.tm.state.LocalAppLanguage
 import com.game.tm.theme.LocalThemeIsDark
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.rememberResourceEnvironment
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.koinInject
@@ -79,7 +83,7 @@ fun ColumnScope.TabItem(tab: Tab) {
 @Composable
 fun Sidebar(modifier: Modifier, navigator: Navigator) {
     Column(
-        modifier.fillMaxHeight().width(220.dp).background(
+        modifier.fillMaxHeight().width(250.dp).background(
             color = MaterialTheme.colorScheme.background.copy(alpha = 0.2f)
         ).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -96,8 +100,10 @@ fun Sidebar(modifier: Modifier, navigator: Navigator) {
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun ProfileItem(navigator: Navigator) {
+    val language = LocalAppLanguage.current
     val authSettings = koinInject<AuthSettings>()
     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Row(
@@ -135,10 +141,11 @@ fun ProfileItem(navigator: Navigator) {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(
-                stringResource(Res.string.logout),
-                color = MaterialTheme.colorScheme.primary
-            )
+                Text(
+                    stringResource(Res.string.logout),
+                    color = MaterialTheme.colorScheme.primary
+                )
+
         }
     }
 }

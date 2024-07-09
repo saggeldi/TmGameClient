@@ -1,6 +1,5 @@
 package com.game.tm.features.category.presentation.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +19,6 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -41,13 +39,8 @@ import com.game.tm.features.category.data.entity.CategoryApiEntityItem
 import com.game.tm.features.game.presentation.ui.GameTab
 import com.game.tm.features.game.presentation.ui.details.GameDetailScreen
 import com.game.tm.state.LocalGameState
-import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import tmgame.composeapp.generated.resources.Res
-import tmgame.composeapp.generated.resources.game
-import tmgame.composeapp.generated.resources.p0
-import tmgame.composeapp.generated.resources.p2
-import tmgame.composeapp.generated.resources.p3
 import tmgame.composeapp.generated.resources.splash
 
 @Composable
@@ -92,7 +85,7 @@ fun CategoryItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    item.category.name_tm,
+                    translateValue(item.category, "name"),
                     color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.headlineSmall.copy(
                         fontWeight = FontWeight.W600
@@ -120,14 +113,17 @@ fun CategoryItem(
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(22.dp)
             ) {
-                items(listOf(Res.drawable.p0, Res.drawable.p2, Res.drawable.p3)) {
-                    Image(
-                        painter = painterResource(it),
+                items(item.games) { game->
+                    AsyncImage(
+                        model = game.getFirstImage(),
                         contentDescription = null,
-                        contentScale = ContentScale.Crop,
                         modifier = Modifier.size(140.dp).clip(RoundedCornerShape(12.dp)).clickable {
-                            route.push(GameDetailScreen("1"))
-                        }
+                            route.push(GameDetailScreen(game.id.toString()))
+                        },
+                        imageLoader = ImageLoader(context),
+                        contentScale = ContentScale.Crop,
+                        placeholder = painterResource(Res.drawable.splash),
+                        error = painterResource(Res.drawable.splash)
                     )
                 }
             }

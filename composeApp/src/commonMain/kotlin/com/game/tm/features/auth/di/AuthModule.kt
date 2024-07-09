@@ -16,6 +16,7 @@ import com.game.tm.features.game.presentation.viewmodel.GameViewModel
 import com.game.tm.features.profile.data.repository.ProfileRepositoryImpl
 import com.game.tm.features.profile.domain.repository.ProfileRepository
 import com.game.tm.features.profile.domain.usecase.ProfileUseCase
+import com.game.tm.features.profile.presentation.viewmodel.AppSettingsStore
 import com.game.tm.features.profile.presentation.viewmodel.ProfileViewModel
 import com.russhwolf.settings.PreferencesSettings
 import com.russhwolf.settings.Settings
@@ -89,6 +90,7 @@ val repositoryModule = module {
     single<AuthRepository> { AuthRepositoryImpl(get()) }
     single<Settings> { PreferencesSettings(Preferences.userRoot()) }
     single { AuthSettings(get()) }
+    single { AppSettingsStore(get()) }
 
     // profile
     single<ProfileRepository> { ProfileRepositoryImpl(get()) }

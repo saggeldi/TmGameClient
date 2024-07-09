@@ -7,7 +7,7 @@
     <string name="stop">Stop</string>
 
     <!--  SIDEBAR  -->
-    <string name="games">Games ru</string>
+    <string name="games">Games</string>
     <string name="categories">Categories</string>
     <string name="settings">Settings</string>
     <string name="profile">Profile</string>
@@ -46,4 +46,10 @@
     <string name="english">English</string>
     <string name="turkmen">Turkmen</string>
     <string name="russian">Russian</string>
+    <string name="logout">Logout</string>
+    <string name="pricing_title">Pricing</string>
+    <string name="pricing_desc">To use application more features UPGRADE your account</string>
+    <string name="upgrade">Upgrade</string>
+    <string name="use_plan">Use Plan</string>
+    <string name="see_plan">See Plans</string>
 </resources>

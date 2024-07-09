@@ -9,4 +9,12 @@ data class Game(
     val title_en: String,
     val title_ru: String,
     val title_tm: String
-)
+) {
+    fun getFirstImage(): String {
+        return try {
+            assets.sortedBy { it.url }.first { it.type == "image" }.url
+        } catch (ex: Exception) {
+            ""
+        }
+    }
+}

@@ -22,7 +22,7 @@ data class Game(
 ) {
     fun getFirstImage(): String {
         return try {
-            assets.filter { it.type == "image" }[0].url
+            assets.sortedBy { it.id }.first { it.type == "image" }.url
         } catch (ex: Exception) {
             ""
         }

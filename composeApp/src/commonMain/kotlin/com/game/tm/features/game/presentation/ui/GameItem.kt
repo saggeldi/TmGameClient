@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
+import com.game.tm.core.Constant
+import com.game.tm.core.translateValue
 import com.game.tm.features.game.data.entity.Game
 import com.game.tm.state.LocalGameState
 import org.jetbrains.compose.resources.DrawableResource
@@ -58,7 +60,7 @@ fun GameItem(
             )
     ) {
         AsyncImage(
-            model = game.getFirstImage(),
+            model = "${Constant.BASE_URL}/${game.getFirstImage()}",
             contentDescription = null,
             modifier = Modifier.fillMaxWidth().height(300.dp).clip(
                 RoundedCornerShape(
@@ -67,13 +69,13 @@ fun GameItem(
                 )
             ),
             imageLoader = ImageLoader(context),
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.FillBounds,
             error = painterResource(Res.drawable.splash),
             placeholder = painterResource(Res.drawable.splash),
         )
         Row(modifier = Modifier.padding(12.dp)) {
             Text(
-                game.title_tm,
+                translateValue(game, "title"),
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontWeight = FontWeight.W500
