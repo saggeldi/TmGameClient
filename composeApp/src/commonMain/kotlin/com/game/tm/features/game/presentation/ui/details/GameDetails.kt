@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -69,6 +70,9 @@ import com.game.tm.features.game.data.entity.details.Server
 import com.game.tm.features.game.presentation.viewmodel.GameViewModel
 import com.game.tm.openUrl
 import com.game.tm.theme.LocalThemeIsDark
+import com.multiplatform.webview.web.WebView
+import com.multiplatform.webview.web.rememberWebViewState
+import com.multiplatform.webview.web.rememberWebViewStateWithHTMLData
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -102,6 +106,15 @@ class GameDetailScreen(
         }
     }
 
+}
+
+@Composable
+fun GameVideo(
+    url: String
+) {
+    val state = rememberWebViewState("https://google.com")
+
+    WebView(state)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -156,7 +169,7 @@ fun GameDetails(id: String) {
                                     model = "${Constant.BASE_URL}/${images[index].url}",
                                     imageLoader = ImageLoader(context),
                                     contentDescription = null,
-                                    contentScale = ContentScale.Crop,
+                                    contentScale = ContentScale.Inside,
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .clip(RoundedCornerShape(32.dp)),
@@ -166,11 +179,24 @@ fun GameDetails(id: String) {
                                         brush = Brush.verticalGradient(
                                             colors = listOf(
                                                 Color.Transparent,
-                                                MaterialTheme.colorScheme.primary,
+                                                MaterialTheme.colorScheme.primary.copy(alpha = 0.4f),
                                             )
                                         )
                                     )
                                 )
+
+                            }
+                        }
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+                            repeat(images.count()) {
+                                Box(Modifier.size(15.dp).clip(CircleShape).background(
+                                    color = if(it == pagerState.currentPage) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                                ).clickable {
+                                    coroutine.launch {
+                                        pagerState.scrollToPage(it)
+                                    }
+                                })
+                                Spacer(Modifier.width(6.dp))
                             }
                         }
                         LazyRow(
@@ -309,7 +335,8 @@ fun GameServer(
             onClick = {
                 onCopy("${server.server_host}:${server.server_port}")
                 copied.value = true
-            }
+            },
+            enabled = blocked.not()
         ) {
             Text(stringResource(if(copied.value) Res.string.copied else Res.string.copy))
         }

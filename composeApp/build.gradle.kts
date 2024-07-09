@@ -45,6 +45,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.ktor.json)
             implementation(kotlin("reflect"))
+            api("io.github.kevinnzou:compose-webview-multiplatform:1.8.0")
         }
 
         commonTest.dependencies {
@@ -66,6 +67,8 @@ kotlin {
 
     }
 }
+
+
 
 compose.desktop {
     application {

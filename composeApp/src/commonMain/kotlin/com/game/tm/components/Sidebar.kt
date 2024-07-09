@@ -55,6 +55,8 @@ import com.game.tm.features.profile.presentation.ui.ProfileTab
 import com.game.tm.state.LocalAppLanguage
 import com.game.tm.theme.LocalThemeIsDark
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.InternalResourceApi
+import org.jetbrains.compose.resources.LanguageQualifier
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.rememberResourceEnvironment
 import org.jetbrains.compose.resources.stringResource
@@ -100,7 +102,7 @@ fun Sidebar(modifier: Modifier, navigator: Navigator) {
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
+@OptIn(ExperimentalResourceApi::class, InternalResourceApi::class)
 @Composable
 fun ProfileItem(navigator: Navigator) {
     val language = LocalAppLanguage.current
@@ -142,7 +144,7 @@ fun ProfileItem(navigator: Navigator) {
             modifier = Modifier.fillMaxWidth()
         ) {
                 Text(
-                    stringResource(Res.string.logout),
+                    stringResource(Res.string.logout, LanguageQualifier(language.value)),
                     color = MaterialTheme.colorScheme.primary
                 )
 

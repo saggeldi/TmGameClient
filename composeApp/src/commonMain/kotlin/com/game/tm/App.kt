@@ -21,10 +21,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalLocalization
 import androidx.compose.ui.platform.LocalPlatformTextInputMethodOverride
 import androidx.compose.ui.platform.PlatformLocalization
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.tab.TabNavigator
@@ -34,6 +36,8 @@ import com.game.tm.components.MainRoute
 import com.game.tm.components.PlayerDemo
 import com.game.tm.components.Router
 import com.game.tm.components.Sidebar
+import com.game.tm.components.VideoPlayer
+import com.game.tm.components.rememberVideoPlayerState
 import com.game.tm.core.SettingConfig
 import com.game.tm.core.translateValue
 import com.game.tm.features.auth.di.initKoin
@@ -45,6 +49,7 @@ import com.game.tm.state.LocalRouter
 import com.game.tm.state.RouterEnum
 import com.game.tm.theme.AppTheme
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.LanguageQualifier
 import org.jetbrains.compose.resources.ResourceEnvironment
 import org.jetbrains.compose.resources.getSystemResourceEnvironment
 import org.jetbrains.compose.resources.stringResource
@@ -83,7 +88,7 @@ internal fun App(
                 Locale.setDefault(Locale.forLanguageTag(language.value))
             }
             CompositionLocalProvider(
-                LocalLayoutDirection provides rtl.value
+                LocalDensity provides Density(1f)
             ) {
                 MainRoute()
             }
