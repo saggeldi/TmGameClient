@@ -29,7 +29,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -41,9 +40,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import com.game.tm.features.auth.presentation.ui.Auth
@@ -53,22 +50,17 @@ import com.game.tm.features.game.presentation.ui.GameTab
 import com.game.tm.features.profile.presentation.ui.PricingScreen
 import com.game.tm.features.profile.presentation.ui.ProfileTab
 import com.game.tm.state.LocalAppLanguage
+import com.game.tm.state.LocalStrings
 import com.game.tm.theme.LocalThemeIsDark
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.InternalResourceApi
-import org.jetbrains.compose.resources.LanguageQualifier
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.rememberResourceEnvironment
-import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.koinInject
 import tmgame.composeapp.generated.resources.Res
-import tmgame.composeapp.generated.resources.app_description
-import tmgame.composeapp.generated.resources.app_name
 import tmgame.composeapp.generated.resources.ic_dark_mode
 import tmgame.composeapp.generated.resources.ic_light_mode
 import tmgame.composeapp.generated.resources.logo
-import tmgame.composeapp.generated.resources.logout
 
 @Composable
 fun ColumnScope.TabItem(tab: Tab) {
@@ -105,6 +97,7 @@ fun Sidebar(modifier: Modifier, navigator: Navigator) {
 @OptIn(ExperimentalResourceApi::class, InternalResourceApi::class)
 @Composable
 fun ProfileItem(navigator: Navigator) {
+    val strings = LocalStrings.current
     val language = LocalAppLanguage.current
     val authSettings = koinInject<AuthSettings>()
     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -144,7 +137,7 @@ fun ProfileItem(navigator: Navigator) {
             modifier = Modifier.fillMaxWidth()
         ) {
                 Text(
-                    stringResource(Res.string.logout, LanguageQualifier(language.value)),
+                    strings.logout,
                     color = MaterialTheme.colorScheme.primary
                 )
 
@@ -168,7 +161,7 @@ fun AppLogo(modifier: Modifier = Modifier) {
         )
         Column {
             Text(
-                text = stringResource(Res.string.app_name),
+                text = LocalStrings.current.app_name,
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Bold,
@@ -176,7 +169,7 @@ fun AppLogo(modifier: Modifier = Modifier) {
                 )
             )
             Text(
-                text = stringResource(Res.string.app_description),
+                text = LocalStrings.current.app_description,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Light,

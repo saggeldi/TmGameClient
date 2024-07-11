@@ -2,7 +2,6 @@ package com.game.tm.features.profile.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,14 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -32,10 +29,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
@@ -46,17 +41,12 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.game.tm.components.AppError
 import com.game.tm.components.AppLoading
 import com.game.tm.components.GlassBackground
-import com.game.tm.features.auth.presentation.ui.Payment
 import com.game.tm.features.auth.presentation.ui.PaymentScreen
 import com.game.tm.features.auth.presentation.viewmodel.AuthSettings
 import com.game.tm.features.profile.presentation.viewmodel.ProfileViewModel
+import com.game.tm.state.LocalStrings
 import com.game.tm.theme.AppTheme
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
-import tmgame.composeapp.generated.resources.Res
-import tmgame.composeapp.generated.resources.pricing_desc
-import tmgame.composeapp.generated.resources.pricing_title
-import tmgame.composeapp.generated.resources.use_plan
 
 class PricingScreen : Screen {
     @Composable
@@ -80,6 +70,7 @@ class Pricing(private val onBack: () -> Unit): Screen {
 
 @Composable
 fun PricingUi(onBack: () -> Unit) {
+    val strings = LocalStrings.current
     val nav = LocalNavigator.currentOrThrow
     val authSettings = koinInject<AuthSettings>()
     val viewModel = nav.koinNavigatorScreenModel<ProfileViewModel>()
@@ -111,7 +102,7 @@ fun PricingUi(onBack: () -> Unit) {
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "back")
                 }
                 Text(
-                    stringResource(Res.string.pricing_title),
+                    strings.pricing_title,
                     color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.headlineMedium.copy(
                         fontWeight = FontWeight.Bold
@@ -121,7 +112,7 @@ fun PricingUi(onBack: () -> Unit) {
                 )
 
                 Text(
-                    stringResource(Res.string.pricing_desc),
+                    strings.pricing_desc,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight.Normal
@@ -233,7 +224,7 @@ fun PricingItem(
                 onClick(value)
             }
         ) {
-            Text(stringResource(Res.string.use_plan), color = color)
+            Text(LocalStrings.current.use_plan, color = color)
         }
         Spacer(Modifier.height(22.dp))
     }

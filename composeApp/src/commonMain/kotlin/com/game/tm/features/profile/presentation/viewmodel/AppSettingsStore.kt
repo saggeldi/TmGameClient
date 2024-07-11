@@ -1,5 +1,6 @@
 package com.game.tm.features.profile.presentation.viewmodel
 
+import com.game.tm.core.locale.Locales
 import com.russhwolf.settings.Settings
 
 class ThemeMode {
@@ -16,5 +17,13 @@ class AppSettingsStore(private val settings: Settings) {
     }
     fun getMode(): String {
         return settings.getString("mode", ThemeMode.SYSTEM)
+    }
+
+    fun saveLanguage(lang: String) {
+        settings.putString("language", lang)
+    }
+
+    fun getLanguage(): String {
+        return settings.getString("language", Locales.TM)
     }
 }

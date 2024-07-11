@@ -10,17 +10,14 @@ import com.game.tm.features.auth.data.entity.SignUpResponse
 import com.game.tm.features.auth.domain.repository.AuthRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.request.HttpResponseData
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
-import io.ktor.http.headers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import okhttp3.internal.addHeaderLenient
 
 class AuthRepositoryImpl(private val httpClient: HttpClient): AuthRepository {
     override suspend fun signUp(body: SignUpRequest): Flow<Resource<SignUpResponse>> = flow {

@@ -29,24 +29,18 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.game.tm.components.AppError
 import com.game.tm.components.AppLoading
 import com.game.tm.features.category.presentation.viewmodel.CategoryViewModel
-import com.game.tm.features.game.presentation.ui.GameScreen
+import com.game.tm.state.LocalStrings
 import com.game.tm.state.Routes
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import tmgame.composeapp.generated.resources.Res
-import tmgame.composeapp.generated.resources.categories
 import tmgame.composeapp.generated.resources.category_game
-import tmgame.composeapp.generated.resources.game
-import tmgame.composeapp.generated.resources.games
-import tmgame.composeapp.generated.resources.ic_cyclone
-import tmgame.composeapp.generated.resources.pb
 
 object CategoryTab: Tab {
     override val options: TabOptions
         @Composable
         get() {
             val icon = painterResource(Res.drawable.category_game)
-            val title = stringResource(Res.string.categories)
+            val title = LocalStrings.current.categories
             val index: UShort = Routes.CATEGORY
 
             return TabOptions(
@@ -84,7 +78,7 @@ fun CategoryScreen() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = stringResource(Res.string.categories),
+                text = LocalStrings.current.categories,
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Bold,

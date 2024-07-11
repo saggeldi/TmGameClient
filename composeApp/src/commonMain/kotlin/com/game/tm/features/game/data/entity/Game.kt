@@ -1,6 +1,5 @@
 package com.game.tm.features.game.data.entity
 
-import androidx.compose.ui.util.fastAny
 import kotlinx.serialization.Serializable
 
 @Serializable

@@ -7,10 +7,15 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.com.google.devtools.ksp)
 }
 
+
 kotlin {
-    jvm()
+    jvm {
+        withJava()
+    }
+
 
     sourceSets {
         commonMain.dependencies {
@@ -46,6 +51,9 @@ kotlin {
             implementation(libs.ktor.json)
             implementation(kotlin("reflect"))
             api("io.github.kevinnzou:compose-webview-multiplatform:1.8.0")
+
+            // Required
+            implementation(libs.lyricist)
         }
 
         commonTest.dependencies {
@@ -66,6 +74,37 @@ kotlin {
         }
 
     }
+}
+
+
+dependencies {
+    add("kspCommonMainMetadata", libs.lyricist.processor)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
+    jvmTargetValidationMode.set(org.jetbrains.kotlin.gradle.dsl.jvm.JvmTargetValidationMode.WARNING)
+}
+
+//tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().all {
+//    if (name != "kspCommonMainKotlinMetadata") {
+//        dependsOn("kspCommonMainKotlinMetadata")
+//    }
+//    kotlinOptions.freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn")
+//}
+tasks.withType<com.google.devtools.ksp.gradle.KspTaskJvm> {
+    enabled = false
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    dependsOn(tasks.withType<com.google.devtools.ksp.gradle.KspTaskMetadata>())
+}
+kotlin.sourceSets.commonMain {
+    kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+}
+
+ksp {
+    arg("lyricist.internalVisibility", "true")
+    arg("lyricist.generateStringsProperty", "true")
 }
 
 

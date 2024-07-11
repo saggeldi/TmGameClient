@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -26,9 +25,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -44,7 +41,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -69,31 +65,15 @@ import com.game.tm.features.auth.presentation.viewmodel.AuthSettings
 import com.game.tm.features.game.data.entity.details.Server
 import com.game.tm.features.game.presentation.viewmodel.GameViewModel
 import com.game.tm.openUrl
+import com.game.tm.state.LocalStrings
 import com.game.tm.theme.LocalThemeIsDark
 import com.multiplatform.webview.web.WebView
 import com.multiplatform.webview.web.rememberWebViewState
-import com.multiplatform.webview.web.rememberWebViewStateWithHTMLData
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import tmgame.composeapp.generated.resources.Res
-import tmgame.composeapp.generated.resources.blocked_server
-import tmgame.composeapp.generated.resources.category
-import tmgame.composeapp.generated.resources.copied
-import tmgame.composeapp.generated.resources.copy
-import tmgame.composeapp.generated.resources.description
-import tmgame.composeapp.generated.resources.game
-import tmgame.composeapp.generated.resources.game_url
-import tmgame.composeapp.generated.resources.lorem
-import tmgame.composeapp.generated.resources.open_url
-import tmgame.composeapp.generated.resources.p0
-import tmgame.composeapp.generated.resources.p2
-import tmgame.composeapp.generated.resources.p3
 import tmgame.composeapp.generated.resources.server
-import tmgame.composeapp.generated.resources.servers
-import tmgame.composeapp.generated.resources.star
-import tmgame.composeapp.generated.resources.you_can_read_more_details
 
 class GameDetailScreen(
     private val id: String
@@ -120,6 +100,7 @@ fun GameVideo(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GameDetails(id: String) {
+    val strings = LocalStrings.current
     val navigator = LocalNavigator.currentOrThrow
     val clipboard = LocalClipboardManager.current
     val viewModel = navigator.koinNavigatorScreenModel<GameViewModel>()
@@ -218,12 +199,12 @@ fun GameDetails(id: String) {
                         }
 
                         GameText(
-                            title = stringResource(Res.string.category),
+                            title = strings.category,
                             content = translateValue(game.category, "name"),
                         )
 
                         GameText(
-                            title = stringResource(Res.string.description),
+                            title = strings.description,
                             content = translateValue(game, "desc"),
                         )
 
@@ -231,7 +212,7 @@ fun GameDetails(id: String) {
 
                     Column(Modifier.fillMaxHeight().verticalScroll(rememberScrollState()).weight(30f).padding(16.dp)) {
                         Text(
-                            text = stringResource(Res.string.servers),
+                            text = strings.servers,
                             color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.bodyLarge.copy(
                                 fontWeight = FontWeight.W500,
@@ -253,7 +234,7 @@ fun GameDetails(id: String) {
                         Spacer(Modifier.height(22.dp))
                         Column(Modifier.fillMaxWidth()) {
                             Text(
-                                text = stringResource(Res.string.star),
+                                text = strings.star,
                                 color = MaterialTheme.colorScheme.primary,
                                 style = MaterialTheme.typography.bodyLarge.copy(
                                     fontWeight = FontWeight.W500,
@@ -270,8 +251,8 @@ fun GameDetails(id: String) {
                         Spacer(Modifier.height(22.dp))
 
                         GameText(
-                            title = stringResource(Res.string.game_url),
-                            content = stringResource(Res.string.you_can_read_more_details),
+                            title = strings.open_url,
+                            content = strings.you_can_read_more_details,
                         )
                         Spacer(Modifier.height(8.dp))
                         OutlinedButton(
@@ -280,7 +261,7 @@ fun GameDetails(id: String) {
                                 openUrl(game.site_url)
                             }
                         ) {
-                            Text(stringResource(Res.string.open_url))
+                            Text(strings.open_url)
                         }
                     }
                 }
@@ -299,6 +280,7 @@ fun GameServer(
     val copied = remember {
         mutableStateOf(false)
     }
+    val strings = LocalStrings.current
     val authSettings = koinInject<AuthSettings>()
     val blocked = authSettings.checkAccess(server.type).not()
     Row(modifier.fillMaxWidth().background(
@@ -313,7 +295,7 @@ fun GameServer(
         Spacer(Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = if(blocked) stringResource(Res.string.blocked_server) else "${server.display_host}:${server.display_port}",
+                text = if(blocked) strings.blocked_server else "${server.display_host}:${server.display_port}",
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.W500,
@@ -338,7 +320,7 @@ fun GameServer(
             },
             enabled = blocked.not()
         ) {
-            Text(stringResource(if(copied.value) Res.string.copied else Res.string.copy))
+            Text(if(copied.value) strings.copied else strings.copy)
         }
     }
 }

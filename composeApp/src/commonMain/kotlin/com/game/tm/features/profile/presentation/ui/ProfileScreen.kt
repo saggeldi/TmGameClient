@@ -25,41 +25,28 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLocalization
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.PopupProperties
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.game.tm.features.profile.presentation.viewmodel.AppSettingsStore
 import com.game.tm.features.profile.presentation.viewmodel.ThemeMode
 import com.game.tm.state.LocalAppLanguage
+import com.game.tm.state.LocalStrings
 import com.game.tm.state.Routes
 import com.game.tm.theme.LocalThemeIsDark
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import tmgame.composeapp.generated.resources.Res
-import tmgame.composeapp.generated.resources.app_name
-import tmgame.composeapp.generated.resources.dark
-import tmgame.composeapp.generated.resources.english
-import tmgame.composeapp.generated.resources.games
-import tmgame.composeapp.generated.resources.language
-import tmgame.composeapp.generated.resources.light
-import tmgame.composeapp.generated.resources.russian
 import tmgame.composeapp.generated.resources.settings
-import tmgame.composeapp.generated.resources.system_mod
-import tmgame.composeapp.generated.resources.theme
-import tmgame.composeapp.generated.resources.turkmen
-import java.util.Locale
 
 object ProfileTab : Tab {
     override val options: TabOptions
         @Composable
         get() {
             val icon = painterResource(Res.drawable.settings)
-            val title = stringResource(Res.string.settings)
+            val title = LocalStrings.current.settings
             val id = Routes.SETTING
             return TabOptions(
                 id,
@@ -137,6 +124,7 @@ fun SettingsItem(
 
 @Composable
 fun ProfileScreen() {
+    val strings = LocalStrings.current
     val isDark = LocalThemeIsDark.current
     val isSystem = isSystemInDarkTheme()
     val language = LocalAppLanguage.current
@@ -151,7 +139,7 @@ fun ProfileScreen() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             androidx.compose.material.Text(
-                text = stringResource(Res.string.settings),
+                text = strings.settings,
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Bold,
@@ -160,11 +148,11 @@ fun ProfileScreen() {
             )
         }
         SettingsItem(
-            title = stringResource(Res.string.theme),
+            title = strings.theme,
             items = listOf(
-                stringResource(Res.string.light),
-                stringResource(Res.string.dark),
-                stringResource(Res.string.system_mod),
+                strings.light,
+                strings.dark,
+                strings.system_mod,
             ),
             onSelect = { value->
                 when(value) {
@@ -185,11 +173,11 @@ fun ProfileScreen() {
         )
 
         SettingsItem(
-            title = stringResource(Res.string.language),
+            title = strings.language,
             items = listOf(
-                stringResource(Res.string.turkmen),
-                stringResource(Res.string.english),
-                stringResource(Res.string.russian),
+                strings.turkmen,
+                strings.english,
+                strings.russian,
             ),
             onSelect = { value->
                 when(value) {

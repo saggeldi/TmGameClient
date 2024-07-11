@@ -22,7 +22,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,27 +36,20 @@ import com.game.tm.components.AppError
 import com.game.tm.components.AppLoading
 import com.game.tm.components.AppPagination
 import com.game.tm.features.game.presentation.ui.details.GameDetailScreen
-import com.game.tm.features.game.presentation.ui.details.GameDetails
 import com.game.tm.features.game.presentation.viewmodel.GameViewModel
 import com.game.tm.state.LocalGameState
-import com.game.tm.state.LocalRouter
-import com.game.tm.state.RouterEnum
+import com.game.tm.state.LocalStrings
 import com.game.tm.state.Routes
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import tmgame.composeapp.generated.resources.Res
-import tmgame.composeapp.generated.resources.game
 import tmgame.composeapp.generated.resources.games
-import tmgame.composeapp.generated.resources.home_game
-import tmgame.composeapp.generated.resources.p0
-import tmgame.composeapp.generated.resources.pb
 
 object GameTab : Tab {
     override val options: TabOptions
         @Composable
         get() {
             val icon = painterResource(Res.drawable.games)
-            val title = stringResource(Res.string.games)
+            val title = LocalStrings.current.games
             val index: UShort = Routes.GAME
 
             return TabOptions(
@@ -82,6 +74,7 @@ class Games : Screen {
 
 @Composable
 fun GameScreen() {
+    val strings = LocalStrings.current
     val router = LocalNavigator.currentOrThrow
     val viewModel = router.koinNavigatorScreenModel<GameViewModel>()
     val state = viewModel.gameState.collectAsState()
@@ -112,7 +105,7 @@ fun GameScreen() {
                     )
                 }
                 Text(
-                    text = stringResource(Res.string.games).plus(" / ${request.value.categoryName}"),
+                    text = strings.games.plus(" / ${request.value.categoryName}"),
                     color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
@@ -121,7 +114,7 @@ fun GameScreen() {
                 )
             } else {
                 Text(
-                    text = stringResource(Res.string.games),
+                    text = strings.games,
                     color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,

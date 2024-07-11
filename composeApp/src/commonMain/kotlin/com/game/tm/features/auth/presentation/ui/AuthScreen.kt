@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.CircularProgressIndicator
@@ -46,26 +47,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinNavigatorScreenModel
-import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.game.tm.Test
 import com.game.tm.components.GlassBackground
 import com.game.tm.components.MainScreen
-import com.game.tm.core.translateValue
 import com.game.tm.features.auth.presentation.viewmodel.AuthViewModel
+import com.game.tm.state.LocalStrings
 import com.game.tm.theme.AppTheme
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import tmgame.composeapp.generated.resources.Res
 import tmgame.composeapp.generated.resources.auth
-import tmgame.composeapp.generated.resources.email
-import tmgame.composeapp.generated.resources.fullName
-import tmgame.composeapp.generated.resources.password
-import tmgame.composeapp.generated.resources.phone
-import tmgame.composeapp.generated.resources.sign_in
-import tmgame.composeapp.generated.resources.sign_up
-import tmgame.composeapp.generated.resources.username
 
 class Auth : Screen {
     @Composable
@@ -83,6 +75,7 @@ fun AuthScreen() {
     val index = remember {
         mutableStateOf(0)
     }
+    val strings = LocalStrings.current
     val nav = LocalNavigator.currentOrThrow
     val authViewModel = nav.koinNavigatorScreenModel<AuthViewModel>()
 
@@ -127,7 +120,7 @@ fun AuthScreen() {
                         AuthButton(
                             loading = authViewModel.signInState.value.loading,
                             modifier = Modifier.weight(1f),
-                            text = stringResource(Res.string.sign_in),
+                            text = strings.sign_in,
                             selected = index.value == 0
                         ) {
                             if (index.value != 0){
@@ -150,7 +143,7 @@ fun AuthScreen() {
                         AuthButton(
                             loading = authViewModel.signUpState.value.loading,
                             modifier = Modifier.weight(1f),
-                            text = stringResource(Res.string.sign_up),
+                            text = strings.sign_up,
                             selected = index.value == 1
                         ) {
                             if (index.value != 1){
@@ -190,7 +183,7 @@ fun Login(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
     val form = authViewModel.signInForm
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            stringResource(Res.string.sign_in),
+            LocalStrings.current.sign_in,
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.titleMedium.copy(
                 fontWeight = FontWeight.Bold,
@@ -204,7 +197,7 @@ fun Login(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
                 authViewModel.changeSignInForm(form.value.copy(username = it))
             },
             icon = Icons.Outlined.Person,
-            label = stringResource(Res.string.username)
+            label = LocalStrings.current.username
         )
 
         Spacer(Modifier.height(16.dp))
@@ -215,7 +208,7 @@ fun Login(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
                 authViewModel.changeSignInForm(form.value.copy(password = it))
             },
             icon = Icons.Outlined.Build,
-            label = stringResource(Res.string.password)
+            label = LocalStrings.current.password
         )
     }
 }
@@ -223,9 +216,10 @@ fun Login(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
 @Composable
 fun CreateAccount(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
     val form = authViewModel.signUpForm
+    val strings = LocalStrings.current
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            stringResource(Res.string.sign_up),
+            strings.sign_up,
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.titleMedium.copy(
                 fontWeight = FontWeight.Bold,
@@ -243,7 +237,7 @@ fun CreateAccount(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
                 )
             },
             icon = Icons.Outlined.Person,
-            label = stringResource(Res.string.username)
+            label = strings.username
         )
 
         Spacer(Modifier.height(16.dp))
@@ -258,7 +252,7 @@ fun CreateAccount(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
                 )
             },
             icon = Icons.Outlined.Build,
-            label = stringResource(Res.string.password)
+            label = strings.password
         )
 
         Spacer(Modifier.height(16.dp))
@@ -273,13 +267,17 @@ fun CreateAccount(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
                 )
             },
             icon = Icons.Outlined.AccountCircle,
-            label = stringResource(Res.string.fullName)
+            label = strings.fullName
         )
 
         Spacer(Modifier.height(16.dp))
 
         AuthInput(
             value = form.value.phone,
+            maxLength = 8,
+            prefix = {
+                Text("+993")
+            },
             onChange = {
                 authViewModel.changeForm(
                     form = form.value.copy(
@@ -288,7 +286,7 @@ fun CreateAccount(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
                 )
             },
             icon = Icons.Outlined.Phone,
-            label = stringResource(Res.string.phone)
+            label = strings.phone
         )
 
         Spacer(Modifier.height(16.dp))
@@ -303,7 +301,7 @@ fun CreateAccount(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
                 )
             },
             icon = Icons.Outlined.Email,
-            label = stringResource(Res.string.email)
+            label = strings.email
         )
 
 
@@ -318,14 +316,39 @@ fun AuthInput(
     label: String,
     value: String,
     icon: ImageVector,
+    maxLength: Int = 0,
+    prefix: @Composable ()-> Unit = {},
+    isError: Boolean = value.isEmpty() || (maxLength!=0 && value.length<maxLength),
     onChange: (String) -> Unit
 ) {
+    val strings = LocalStrings.current
     OutlinedTextField(
         value = value,
-        onValueChange = onChange,
+        onValueChange = {
+            if(it.length<=maxLength || maxLength==0) {
+                onChange(it)
+            }
+        },
         modifier = modifier.fillMaxWidth(),
+        prefix = prefix,
+        supportingText = {
+            if(isError) {
+                Text(strings.errorField.replace("%s", label), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.error)
+            }
+        },
         label = {
             Text(label, style = MaterialTheme.typography.bodyMedium)
+        },
+        isError = isError,
+        trailingIcon = {
+            if(isError) {
+                Icon(
+                    Icons.Outlined.Info,
+                    contentDescription = value,
+                    modifier = Modifier.size(25.dp),
+                    tint = MaterialTheme.colorScheme.error
+                )
+            }
         },
         leadingIcon = {
             Icon(

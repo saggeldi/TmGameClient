@@ -24,11 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberWindowState
+import com.game.tm.state.LocalStrings
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import tmgame.composeapp.generated.resources.Res
-import tmgame.composeapp.generated.resources.app_name
 import tmgame.composeapp.generated.resources.splash
 
 @Composable
@@ -71,7 +70,7 @@ fun Splash(onClose: ()-> Unit) {
             ))
             Column(modifier = Modifier.align(Alignment.BottomCenter), horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    stringResource(Res.string.app_name),
+                    LocalStrings.current.app_name,
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold
                     ),

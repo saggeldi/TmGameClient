@@ -14,6 +14,8 @@ kotlinx-datetime = "0.6.0"
 multiplatformSettings = "1.1.1"
 koin = "3.6.0-wasm-alpha2"
 kstore = "0.8.0"
+lyricist = "1.7.0"
+ksp="2.0.0-1.0.22"
 
 [libraries]
 
@@ -50,6 +52,9 @@ multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", versi
 multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatformSettings" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 kstore = { module = "io.github.xxfast:kstore", version.ref = "kstore" }
+lyricist = { module = "cafe.adriel.lyricist:lyricist", version.ref = "lyricist" }
+lyricist-processor = { module = "cafe.adriel.lyricist:lyricist-processor", version.ref = "lyricist" }
+lyricist-processorXml = { module = "cafe.adriel.lyricist:lyricist-processor-xml", version.ref = "lyricist" }
 
 [plugins]
 
@@ -57,3 +62,4 @@ multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotl
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+com-google-devtools-ksp = {id="com.google.devtools.ksp",version.ref="ksp"}
