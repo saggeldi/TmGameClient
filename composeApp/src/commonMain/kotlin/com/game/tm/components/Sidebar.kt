@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
+import com.game.tm.features.auth.data.entity.payment.CheckPaymentResponse
 import com.game.tm.features.auth.presentation.ui.Auth
 import com.game.tm.features.auth.presentation.viewmodel.AuthSettings
 import com.game.tm.features.category.presentation.ui.CategoryTab
@@ -75,7 +76,7 @@ fun ColumnScope.TabItem(tab: Tab) {
 }
 
 @Composable
-fun Sidebar(modifier: Modifier, navigator: Navigator) {
+fun Sidebar(modifier: Modifier, navigator: Navigator, data: CheckPaymentResponse) {
     Column(
         modifier.fillMaxHeight().width(250.dp).background(
             color = MaterialTheme.colorScheme.background.copy(alpha = 0.2f)

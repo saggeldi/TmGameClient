@@ -6,6 +6,7 @@ import com.game.tm.features.auth.data.entity.SignInRequest
 import com.game.tm.features.auth.data.entity.SignInResponse
 import com.game.tm.features.auth.data.entity.SignUpRequest
 import com.game.tm.features.auth.data.entity.SignUpResponse
+import com.game.tm.features.auth.data.entity.payment.CheckPaymentResponse
 import com.game.tm.features.auth.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow
 
@@ -20,5 +21,8 @@ class AuthUseCase(
     }
     suspend fun payWithKey(body: PayRequest): Flow<Resource<SignInResponse>> {
         return repository.payWithKey(body)
+    }
+    suspend fun checkPayment(): Flow<Resource<CheckPaymentResponse>> {
+        return repository.checkPayment()
     }
 }

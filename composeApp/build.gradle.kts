@@ -54,6 +54,9 @@ kotlin {
 
             // Required
             implementation(libs.lyricist)
+
+            // toast
+            implementation(libs.toast)
         }
 
         commonTest.dependencies {

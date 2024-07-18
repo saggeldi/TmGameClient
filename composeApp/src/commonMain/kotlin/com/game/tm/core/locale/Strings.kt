@@ -46,5 +46,8 @@ data class Strings(
     val upgrade: String,
     val use_plan: String,
     val see_plan: String,
-    val errorField: String
+    val errorField: String,
+    val paymentDays: String,
+    val days: String,
+    val clickToCopy: String
 )

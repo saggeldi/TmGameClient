@@ -1,10 +1,12 @@
 package com.game.tm.features.game.data.entity
 
+import com.game.tm.features.game.data.entity.details.Server
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Game(
     val assets: List<Asset>,
+    val server: List<Server>,
     val category: Category,
     val created_at: String,
     val desc_en: String,

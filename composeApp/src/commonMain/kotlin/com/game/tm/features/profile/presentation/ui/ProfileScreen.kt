@@ -175,9 +175,9 @@ fun ProfileScreen() {
         SettingsItem(
             title = strings.language,
             items = listOf(
-                strings.turkmen,
-                strings.english,
-                strings.russian,
+                "TM",
+                "EN",
+                "RU",
             ),
             onSelect = { value->
                 when(value) {

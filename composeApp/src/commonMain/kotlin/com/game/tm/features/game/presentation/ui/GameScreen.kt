@@ -35,6 +35,7 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.game.tm.components.AppError
 import com.game.tm.components.AppLoading
 import com.game.tm.components.AppPagination
+import com.game.tm.features.auth.presentation.ui.PaymentTime
 import com.game.tm.features.game.presentation.ui.details.GameDetailScreen
 import com.game.tm.features.game.presentation.viewmodel.GameViewModel
 import com.game.tm.state.LocalGameState
@@ -83,46 +84,48 @@ fun GameScreen() {
         viewModel.getGames(request.value)
     }
     Column(modifier = Modifier.fillMaxSize()) {
-        Row(
-            Modifier.fillMaxWidth()
-                .padding(top = 22.dp, bottom = 22.dp, start = 16.dp, end = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            if(request.value.categoryId!=null) {
-                IconButton(
-                    onClick = {
-                        request.value = request.value.copy(
-                            categoryName = null,
-                            categoryId = null
+        PaymentTime(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                Modifier.fillMaxWidth()
+                    .padding(top = 22.dp, bottom = 22.dp, start = 16.dp, end = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                if(request.value.categoryId!=null) {
+                    IconButton(
+                        onClick = {
+                            request.value = request.value.copy(
+                                categoryName = null,
+                                categoryId = null
+                            )
+                        }
+                    ) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
-                ) {
-                    Icon(
-                        Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
+                    Text(
+                        text = strings.games.plus(" / ${request.value.categoryName}"),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 22.sp
+                        )
+                    )
+                } else {
+                    Text(
+                        text = strings.games,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 22.sp
+                        )
                     )
                 }
-                Text(
-                    text = strings.games.plus(" / ${request.value.categoryName}"),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 22.sp
-                    )
-                )
-            } else {
-                Text(
-                    text = strings.games,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 22.sp
-                    )
-                )
-            }
 
+            }
         }
         if (state.value.loading) {
             AppLoading(Modifier.fillMaxSize())

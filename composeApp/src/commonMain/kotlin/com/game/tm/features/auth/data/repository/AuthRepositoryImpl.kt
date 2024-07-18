@@ -7,7 +7,9 @@ import com.game.tm.features.auth.data.entity.SignInRequest
 import com.game.tm.features.auth.data.entity.SignInResponse
 import com.game.tm.features.auth.data.entity.SignUpRequest
 import com.game.tm.features.auth.data.entity.SignUpResponse
+import com.game.tm.features.auth.data.entity.payment.CheckPaymentResponse
 import com.game.tm.features.auth.domain.repository.AuthRepository
+import com.game.tm.features.auth.presentation.viewmodel.AuthSettings
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.headers
@@ -19,7 +21,7 @@ import io.ktor.http.contentType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class AuthRepositoryImpl(private val httpClient: HttpClient): AuthRepository {
+class AuthRepositoryImpl(private val httpClient: HttpClient, private val authSettings: AuthSettings): AuthRepository {
     override suspend fun signUp(body: SignUpRequest): Flow<Resource<SignUpResponse>> = flow {
         emit(Resource.Loading())
         try {
@@ -66,6 +68,29 @@ class AuthRepositoryImpl(private val httpClient: HttpClient): AuthRepository {
                 setBody(body)
                 headers {
                     append(HttpHeaders.Authorization, "Bearer ${body.token}")
+                }
+            }
+            if (httpResponse.status.value in 200..299) {
+                emit(Resource.Success(httpResponse.body()))
+            } else {
+                println("Error: "+httpResponse.status.value)
+                emit(Resource.Error(httpResponse.status.description, code = httpResponse.status.value))
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            emit(Resource.Error(ex.localizedMessage))
+        }
+    }
+
+    override suspend fun checkPayment(): Flow<Resource<CheckPaymentResponse>> = flow {
+        emit(Resource.Loading())
+
+        try {
+            val httpResponse = httpClient.post("${Constant.BASE_URL}/client/check-payment") {
+                contentType(ContentType.Application.Json)
+                setBody(body)
+                headers {
+                    append(HttpHeaders.Authorization, "Bearer ${authSettings.getUserInfo().token}")
                 }
             }
             if (httpResponse.status.value in 200..299) {

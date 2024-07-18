@@ -51,7 +51,7 @@ val ktorModule = module {
             install(ContentNegotiation) {
                 json(
                     Json {
-                        ignoreUnknownKeys = false
+                        ignoreUnknownKeys = true
                         prettyPrint = true
                         isLenient = false
                     }
@@ -85,7 +85,7 @@ val useCasesModule: Module = module {
 }
 
 val repositoryModule = module {
-    single<AuthRepository> { AuthRepositoryImpl(get()) }
+    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
     single<Settings> { PreferencesSettings(Preferences.userRoot()) }
     single { AuthSettings(get()) }
     single { AppSettingsStore(get()) }

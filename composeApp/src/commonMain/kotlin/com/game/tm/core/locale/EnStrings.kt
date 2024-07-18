@@ -49,5 +49,8 @@ internal val EnStrings = Strings(
     upgrade = "Upgrade",
     use_plan = "Use Plan",
     see_plan = "See Plans",
-    errorField = "Check %s field, entered wrong value or empty"
+    errorField = "Check %s field, entered wrong value or empty",
+    paymentDays = "Payment days: ",
+    days = "days",
+    clickToCopy = "Click to copy"
 )

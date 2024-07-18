@@ -8,7 +8,9 @@ import com.game.tm.features.auth.data.entity.SignInRequest
 import com.game.tm.features.auth.data.entity.SignInResponse
 import com.game.tm.features.auth.data.entity.SignUpRequest
 import com.game.tm.features.auth.data.entity.SignUpResponse
+import com.game.tm.features.auth.data.entity.payment.CheckPaymentResponse
 import com.game.tm.features.auth.domain.usecase.AuthUseCase
+import com.game.tm.features.auth.presentation.state.CheckPaymentState
 import com.game.tm.features.auth.presentation.state.PayState
 import com.game.tm.features.auth.presentation.state.SignInState
 import com.game.tm.features.auth.presentation.state.SignUpState
@@ -43,6 +45,9 @@ class AuthViewModel(
     var payState = mutableStateOf(PayState())
         private set
 
+    var checkPaymentState = mutableStateOf(CheckPaymentState())
+        private set
+
     var key = mutableStateOf("")
         private set
 
@@ -56,6 +61,36 @@ class AuthViewModel(
 
     fun changeSignInForm(form: SignInRequest) {
         signInForm.value = form
+    }
+
+    fun checkPayment() {
+        viewModelScope.launch {
+            useCase.checkPayment().onEach {
+                when(it) {
+                    is Resource.Error -> {
+                        checkPaymentState.value = checkPaymentState.value.copy(
+                            loading = false,
+                            error = it.message,
+                            data = it.data
+                        )
+                    }
+                    is Resource.Loading -> {
+                        checkPaymentState.value = checkPaymentState.value.copy(
+                            loading = true,
+                            error = it.message,
+                            data = it.data
+                        )
+                    }
+                    is Resource.Success -> {
+                        checkPaymentState.value = checkPaymentState.value.copy(
+                            loading = false,
+                            error = it.message,
+                            data = it.data
+                        )
+                    }
+                }
+            }.launchIn(this)
+        }
     }
 
     fun signUp(onSuccess: (SignUpResponse) -> Unit) {
