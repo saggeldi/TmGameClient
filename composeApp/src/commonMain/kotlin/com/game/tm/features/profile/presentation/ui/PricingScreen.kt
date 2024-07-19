@@ -124,7 +124,7 @@ fun PricingUi(onBack: () -> Unit) {
                 if (state.value.loading) {
                     AppLoading(Modifier.fillMaxWidth())
                 } else if (state.value.error.isNullOrEmpty().not()) {
-                    AppError(message = state.value.error.toString())
+                    AppError(message = state.value.error.toString(), modifier = Modifier.fillMaxSize())
                 } else {
                     state.value.data?.let { list ->
                         Spacer(Modifier.height(22.dp))

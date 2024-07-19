@@ -52,5 +52,9 @@ internal val RuStrings = Strings(
     errorField = "Проверьте поле %s, введено неправильное значение или оно пусто",
     paymentDays = "Дни оплаты: ",
     days = "дней",
-    clickToCopy = "Нажмите для копирования"
+    clickToCopy = "Нажмите для копирования",
+    teamSpeak = "Команда Speak",
+    local = "Локальный",
+    global = "Глобальный",
+    server = "Сервер"
 )

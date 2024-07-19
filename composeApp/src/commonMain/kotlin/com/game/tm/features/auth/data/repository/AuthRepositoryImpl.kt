@@ -15,6 +15,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
@@ -33,7 +34,7 @@ class AuthRepositoryImpl(private val httpClient: HttpClient, private val authSet
                 emit(Resource.Success(httpResponse.body()))
             } else {
                 println("Error: "+httpResponse.status.description)
-                emit(Resource.Error(httpResponse.status.description))
+                emit(Resource.Error(httpResponse.bodyAsText().plus(","+httpResponse.status.description)))
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
@@ -52,7 +53,7 @@ class AuthRepositoryImpl(private val httpClient: HttpClient, private val authSet
                 emit(Resource.Success(httpResponse.body()))
             } else {
                 println("Error: "+httpResponse.status.value)
-                emit(Resource.Error(httpResponse.status.description, code = httpResponse.status.value))
+                emit(Resource.Error(httpResponse.bodyAsText().plus(","+httpResponse.status.description)))
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
@@ -74,7 +75,7 @@ class AuthRepositoryImpl(private val httpClient: HttpClient, private val authSet
                 emit(Resource.Success(httpResponse.body()))
             } else {
                 println("Error: "+httpResponse.status.value)
-                emit(Resource.Error(httpResponse.status.description, code = httpResponse.status.value))
+                emit(Resource.Error(httpResponse.bodyAsText().plus(","+httpResponse.status.description), code = httpResponse.status.value))
             }
         } catch (ex: Exception) {
             ex.printStackTrace()

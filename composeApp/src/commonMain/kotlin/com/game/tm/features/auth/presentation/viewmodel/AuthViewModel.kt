@@ -93,13 +93,14 @@ class AuthViewModel(
         }
     }
 
-    fun signUp(onSuccess: (SignUpResponse) -> Unit) {
+    fun signUp(onSuccess: (SignUpResponse) -> Unit, onError: (String) -> Unit) {
         viewModelScope.launch {
             useCase.signUp(
                 body = signUpForm.value
             ).onEach {
                 when (it) {
                     is Resource.Error -> {
+                        onError(it.message.toString())
                         signUpState.value = signUpState.value.copy(
                             loading = false,
                             error = it.message,
@@ -131,13 +132,14 @@ class AuthViewModel(
         }
     }
 
-    fun signIn(onSuccess: (SignInResponse) -> Unit, onPayment: () -> Unit) {
+    fun signIn(onSuccess: (SignInResponse) -> Unit, onPayment: () -> Unit, onError: (String) -> Unit) {
         viewModelScope.launch {
             useCase.signIn(
                 body = signInForm.value
             ).onEach {
                 when (it) {
                     is Resource.Error -> {
+                        onError(it.message.toString())
                         println("Code: " + it.code)
                         signInState.value = signInState.value.copy(
                             loading = false,
@@ -176,7 +178,7 @@ class AuthViewModel(
         }
     }
 
-    fun pay(onSuccess: (SignInResponse) -> Unit = {}) {
+    fun pay( onError: (String) -> Unit, onSuccess: (SignInResponse) -> Unit = {}) {
         viewModelScope.launch {
             useCase.payWithKey(
                 body = PayRequest(
@@ -186,6 +188,7 @@ class AuthViewModel(
             ).onEach {
                 when (it) {
                     is Resource.Error -> {
+                        onError(it.message.toString())
                         println("Code: " + it.code)
                         payState.value = payState.value.copy(
                             loading = false,

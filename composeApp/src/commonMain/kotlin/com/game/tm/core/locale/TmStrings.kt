@@ -52,5 +52,9 @@ internal val TmStrings = Strings(
     errorField = "%s barlaň, nädogry maglumat girizdiňiz",
     paymentDays = "Galan wagt: ",
     days = "gün",
-    clickToCopy = "Kopiýalamak üçin bas"
+    clickToCopy = "Kopiýalamak üçin bas",
+    teamSpeak = "Team speak",
+    local = "Lokalnyý",
+    global = "Globalnyý",
+    server = "Serwerlar"
 )

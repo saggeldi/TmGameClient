@@ -47,6 +47,7 @@ import com.game.tm.state.LocalStrings
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 import tmgame.composeapp.generated.resources.Res
+import tmgame.composeapp.generated.resources.placeholder
 import tmgame.composeapp.generated.resources.splash
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -68,7 +69,8 @@ fun GameItem(
     Toaster(
         toaster,
         richColors = true,
-        alignment = Alignment.TopCenter
+        alignment = Alignment.TopCenter,
+        darkTheme = true
     )
 
     Column(
@@ -94,8 +96,8 @@ fun GameItem(
             ),
             imageLoader = ImageLoader(context),
             contentScale = ContentScale.FillBounds,
-            error = painterResource(Res.drawable.splash),
-            placeholder = painterResource(Res.drawable.splash),
+            error = painterResource(Res.drawable.placeholder),
+            placeholder = painterResource(Res.drawable.placeholder),
         )
         Row(modifier = Modifier.padding(12.dp)) {
             Text(

@@ -90,7 +90,7 @@ fun CategoryScreen() {
         if(state.value.loading) {
             AppLoading(Modifier.fillMaxSize())
         } else if(state.value.error.isNullOrEmpty().not()) {
-            AppError(message = state.value.error.toString())
+            AppError(message = state.value.error.toString(), modifier = Modifier.fillMaxSize())
         } else {
             state.value.data?.let { list->
                 LazyVerticalGrid(

@@ -49,6 +49,10 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinNavigatorScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.dokar.sonner.ToastType
+import com.dokar.sonner.Toaster
+import com.dokar.sonner.ToasterDefaults
+import com.dokar.sonner.rememberToasterState
 import com.game.tm.Test
 import com.game.tm.components.GlassBackground
 import com.game.tm.components.MainScreen
@@ -78,8 +82,9 @@ fun AuthScreen() {
     val strings = LocalStrings.current
     val nav = LocalNavigator.currentOrThrow
     val authViewModel = nav.koinNavigatorScreenModel<AuthViewModel>()
-
+    val toast = rememberToasterState()
     GlassBackground {
+        Toaster(toast, richColors = true, darkTheme = true)
         Row(
             modifier = Modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.Center,
@@ -135,6 +140,13 @@ fun AuthScreen() {
                                         }},
                                     onPayment = {
                                         index.value = 2
+                                    },
+                                    onError = { message->
+                                        toast.show(
+                                            message = message,
+                                            type = ToastType.Error,
+                                            duration = ToasterDefaults.DurationLong
+                                        )
                                     }
                                 )
                             }
@@ -152,6 +164,14 @@ fun AuthScreen() {
                                 authViewModel.signUp(
                                     onSuccess = { newUser->
                                         index.value = 0
+                                    },
+                                    onError = { message->
+                                        toast.show(
+                                            message = message,
+                                            type = ToastType.Error,
+                                            duration = ToasterDefaults.DurationLong
+                                        )
+
                                     }
                                 )
                             }

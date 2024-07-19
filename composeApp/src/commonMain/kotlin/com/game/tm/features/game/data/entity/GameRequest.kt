@@ -17,4 +17,5 @@ data class GameRequest(
     val sort: String = GameSort.NEWEST_FIRST,
     val categoryId: Int? = null,
     val categoryName: String? = null,
+    val location: String = "LOCAL",
 )

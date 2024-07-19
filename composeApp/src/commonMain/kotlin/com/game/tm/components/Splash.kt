@@ -28,16 +28,19 @@ import com.game.tm.state.LocalStrings
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import tmgame.composeapp.generated.resources.Res
+import tmgame.composeapp.generated.resources.logo
 import tmgame.composeapp.generated.resources.splash
 
 @Composable
 fun Splash(onClose: ()-> Unit) {
 
     LaunchedEffect(true) {
-        delay(400L)
+        delay(4000L)
         onClose()
     }
     Window(
+        title = "Elektron Sport",
+        icon = painterResource(Res.drawable.logo),
         onCloseRequest = {
             onClose()
         },

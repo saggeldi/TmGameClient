@@ -52,5 +52,9 @@ internal val EnStrings = Strings(
     errorField = "Check %s field, entered wrong value or empty",
     paymentDays = "Payment days: ",
     days = "days",
-    clickToCopy = "Click to copy"
+    clickToCopy = "Click to copy",
+    teamSpeak = "Team Speak",
+    local = "Local",
+    global = "Global",
+    server = "Servers"
 )

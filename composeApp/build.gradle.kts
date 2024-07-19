@@ -114,14 +114,26 @@ ksp {
 
 compose.desktop {
     application {
-        println(project.rootDir.toPath().pathString)
         mainClass = "MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.game.tm.desktopApp"
+            packageName = "Elektron Sport"
             packageVersion = "1.0.0"
             appResourcesRootDir.dir(project.rootDir.toPath().pathString + "assets")
+
+
+            macOS {
+                iconFile.set(project.file("icons/logo.icns"))
+            }
+            windows {
+                dirChooser = true
+                perUserInstall = true
+                iconFile.set(project.file("icons/logo.ico"))
+            }
+            linux {
+                iconFile.set(project.file("icons/logo.png"))
+            }
         }
 
         buildTypes.release.proguard {

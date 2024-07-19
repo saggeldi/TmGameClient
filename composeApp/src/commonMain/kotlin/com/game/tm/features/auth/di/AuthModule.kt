@@ -18,6 +18,10 @@ import com.game.tm.features.profile.domain.repository.ProfileRepository
 import com.game.tm.features.profile.domain.usecase.ProfileUseCase
 import com.game.tm.features.profile.presentation.viewmodel.AppSettingsStore
 import com.game.tm.features.profile.presentation.viewmodel.ProfileViewModel
+import com.game.tm.features.server.data.repository.ServerRepositoryImpl
+import com.game.tm.features.server.domain.repository.ServerRepository
+import com.game.tm.features.server.domain.usecase.ServerUseCase
+import com.game.tm.features.server.presentation.viewmodel.ServerViewmodel
 import com.russhwolf.settings.PreferencesSettings
 import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
@@ -75,6 +79,7 @@ val viewModelModule = module {
     factory { ProfileViewModel(get()) }
     factory { CategoryViewModel(get()) }
     factory { GameViewModel(get(), get()) }
+    factory { ServerViewmodel(get(), get()) }
 }
 
 val useCasesModule: Module = module {
@@ -82,6 +87,7 @@ val useCasesModule: Module = module {
     factory { ProfileUseCase(get()) }
     factory { CategoryUseCase(get()) }
     factory { GameUseCase(get()) }
+    factory { ServerUseCase(get()) }
 }
 
 val repositoryModule = module {
@@ -94,6 +100,7 @@ val repositoryModule = module {
     single<ProfileRepository> { ProfileRepositoryImpl(get()) }
     single<CategoryRepository> { CategoryRepositoryImpl(get()) }
     single<GameRepository> { GameRepositoryImpl(get()) }
+    single<ServerRepository> { ServerRepositoryImpl(get(), get()) }
 }
 
 fun initKoin() = initKoin {}

@@ -10,6 +10,8 @@ class Routes {
         const val SETTING: UShort = 1003u
         const val PROFILE: UShort = 1004u
         const val GAME_DETAILS: UShort = 1005u
+        const val TEAM_SPEAK: UShort = 1006u
+        const val SERVERS: UShort = 1007u
     }
 }
 

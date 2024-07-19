@@ -35,6 +35,7 @@ class GameRepositoryImpl(
                     put("sort", body.sort)
                     put("size", body.size)
                     put("categoryId", body.categoryId)
+                    put("location", body.location)
                 })
                 headers {
                     append(HttpHeaders.Authorization, "Bearer $token")

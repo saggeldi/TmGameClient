@@ -73,6 +73,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 import tmgame.composeapp.generated.resources.Res
+import tmgame.composeapp.generated.resources.placeholder
 import tmgame.composeapp.generated.resources.server
 
 class GameDetailScreen(
@@ -114,7 +115,7 @@ fun GameDetails(id: String) {
     if(state.value.loading) {
         AppLoading(Modifier.fillMaxSize())
     } else if(state.value.error.isNullOrEmpty().not()) {
-        AppError(message = state.value.error.toString())
+        AppError(message = state.value.error.toString(), modifier = Modifier.fillMaxSize())
     } else {
         state.value.data?.let { game->
             val images = game.assets.filter { it.type == "image" }
@@ -154,6 +155,8 @@ fun GameDetails(id: String) {
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .clip(RoundedCornerShape(32.dp)),
+                                    placeholder = painterResource(Res.drawable.placeholder),
+                                    error = painterResource(Res.drawable.placeholder)
                                 )
                                 Box(
                                     Modifier.fillMaxSize().clip(RoundedCornerShape(32.dp)).background(
@@ -193,7 +196,9 @@ fun GameDetails(id: String) {
                                         coroutine.launch {
                                             pagerState.scrollToPage(it)
                                         }
-                                    }
+                                    },
+                                    placeholder = painterResource(Res.drawable.placeholder),
+                                    error = painterResource(Res.drawable.placeholder)
                                 )
                             }
                         }

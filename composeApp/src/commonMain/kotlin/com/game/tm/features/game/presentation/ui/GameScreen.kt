@@ -4,24 +4,32 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -80,6 +88,7 @@ fun GameScreen() {
     val viewModel = router.koinNavigatorScreenModel<GameViewModel>()
     val state = viewModel.gameState.collectAsState()
     val request = LocalGameState.current
+
     LaunchedEffect(request.value) {
         viewModel.getGames(request.value)
     }
@@ -127,10 +136,40 @@ fun GameScreen() {
 
             }
         }
+
+        TabRow(
+            modifier = Modifier.padding(16.dp).clip(RoundedCornerShape(12.dp)),
+            selectedTabIndex = if(request.value.location == "LOCAL") 0 else 1
+        )  {
+            Tab(
+                selected = request.value.location == "LOCAL",
+                onClick = {
+                    request.value = request.value.copy(
+                        location = "LOCAL"
+                    )
+                },
+                text = {
+                    androidx.compose.material3.Text(strings.local, color = MaterialTheme.colorScheme.onPrimary)
+                }
+            )
+            Tab(
+                selected = request.value.location == "GLOBAL",
+                onClick = {
+                    request.value = request.value.copy(
+                        location = "GLOBAL"
+                    )
+                },
+                text = {
+                    androidx.compose.material3.Text(strings.global, color = MaterialTheme.colorScheme.onPrimary)
+                }
+            )
+        }
+        Spacer(Modifier.height(16.dp))
+
         if (state.value.loading) {
             AppLoading(Modifier.fillMaxSize())
         } else if (state.value.error.isNullOrEmpty().not()) {
-            AppError(message = state.value.error.toString())
+            AppError(message = state.value.error.toString(), modifier = Modifier.fillMaxSize())
         } else {
             state.value.data?.let { data ->
                 LazyVerticalGrid(

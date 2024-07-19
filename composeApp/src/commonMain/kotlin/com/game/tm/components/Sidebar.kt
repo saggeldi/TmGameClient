@@ -50,6 +50,8 @@ import com.game.tm.features.category.presentation.ui.CategoryTab
 import com.game.tm.features.game.presentation.ui.GameTab
 import com.game.tm.features.profile.presentation.ui.PricingScreen
 import com.game.tm.features.profile.presentation.ui.ProfileTab
+import com.game.tm.features.server.presentation.ui.ServersTab
+import com.game.tm.features.server.presentation.ui.TeamSpeakTab
 import com.game.tm.state.LocalAppLanguage
 import com.game.tm.state.LocalStrings
 import com.game.tm.theme.LocalThemeIsDark
@@ -88,6 +90,8 @@ fun Sidebar(modifier: Modifier, navigator: Navigator, data: CheckPaymentResponse
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             TabItem(GameTab)
             TabItem(CategoryTab)
+            TabItem(ServersTab)
+            TabItem(TeamSpeakTab)
             TabItem(ProfileTab)
         }
         ProfileItem(navigator)

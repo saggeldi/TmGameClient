@@ -29,6 +29,7 @@ import com.game.tm.core.SettingsRepository
 import com.russhwolf.settings.PreferencesSettings
 import org.jetbrains.compose.resources.painterResource
 import tmgame.composeapp.generated.resources.Res
+import tmgame.composeapp.generated.resources.logo
 import tmgame.composeapp.generated.resources.splash
 import java.util.prefs.Preferences
 
@@ -51,7 +52,8 @@ fun main() = application {
        }
     } else {
         Window(
-            title = "TmGame",
+            title = "Elektron Sport",
+            icon = painterResource(Res.drawable.logo),
             state = rememberWindowState(position = WindowPosition(Alignment.Center), placement = WindowPlacement.Maximized),
             onCloseRequest = ::exitApplication,
         ) {

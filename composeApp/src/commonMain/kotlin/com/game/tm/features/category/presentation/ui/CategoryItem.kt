@@ -41,6 +41,7 @@ import com.game.tm.features.game.presentation.ui.details.GameDetailScreen
 import com.game.tm.state.LocalGameState
 import org.jetbrains.compose.resources.painterResource
 import tmgame.composeapp.generated.resources.Res
+import tmgame.composeapp.generated.resources.placeholder
 import tmgame.composeapp.generated.resources.splash
 
 @Composable
@@ -75,8 +76,8 @@ fun CategoryItem(
             ),
             imageLoader = ImageLoader(context),
             contentScale = ContentScale.Crop,
-            placeholder = painterResource(Res.drawable.splash),
-            error = painterResource(Res.drawable.splash)
+            placeholder = painterResource(Res.drawable.placeholder),
+            error = painterResource(Res.drawable.placeholder)
         )
         Column(modifier = Modifier.padding(12.dp).fillMaxWidth()) {
             Row(
@@ -122,8 +123,8 @@ fun CategoryItem(
                         },
                         imageLoader = ImageLoader(context),
                         contentScale = ContentScale.Crop,
-                        placeholder = painterResource(Res.drawable.splash),
-                        error = painterResource(Res.drawable.splash)
+                        placeholder = painterResource(Res.drawable.placeholder),
+                        error = painterResource(Res.drawable.placeholder)
                     )
                 }
             }

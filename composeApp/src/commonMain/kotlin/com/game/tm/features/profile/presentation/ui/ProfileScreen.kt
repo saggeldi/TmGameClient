@@ -147,30 +147,30 @@ fun ProfileScreen() {
                 )
             )
         }
-        SettingsItem(
-            title = strings.theme,
-            items = listOf(
-                strings.light,
-                strings.dark,
-                strings.system_mod,
-            ),
-            onSelect = { value->
-                when(value) {
-                    0 -> {
-                        isDark.value = false
-                        settingsStore.saveMode(ThemeMode.LIGHT)
-                    }
-                    1 -> {
-                        isDark.value = true
-                        settingsStore.saveMode(ThemeMode.DARK)
-                    }
-                    2 -> {
-                        isDark.value = isSystem
-                        settingsStore.saveMode(ThemeMode.SYSTEM)
-                    }
-                }
-            }
-        )
+//        SettingsItem(
+//            title = strings.theme,
+//            items = listOf(
+//                strings.light,
+//                strings.dark,
+//                strings.system_mod,
+//            ),
+//            onSelect = { value->
+//                when(value) {
+//                    0 -> {
+//                        isDark.value = false
+//                        settingsStore.saveMode(ThemeMode.LIGHT)
+//                    }
+//                    1 -> {
+//                        isDark.value = true
+//                        settingsStore.saveMode(ThemeMode.DARK)
+//                    }
+//                    2 -> {
+//                        isDark.value = isSystem
+//                        settingsStore.saveMode(ThemeMode.SYSTEM)
+//                    }
+//                }
+//            }
+//        )
 
         SettingsItem(
             title = strings.language,

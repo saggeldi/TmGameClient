@@ -19,6 +19,10 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinNavigatorScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.dokar.sonner.ToastType
+import com.dokar.sonner.Toaster
+import com.dokar.sonner.ToasterDefaults
+import com.dokar.sonner.rememberToasterState
 import com.game.tm.components.MainScreen
 import com.game.tm.features.auth.presentation.viewmodel.AuthViewModel
 import com.game.tm.features.profile.presentation.ui.PricingScreen
@@ -38,6 +42,8 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
     val strings = LocalStrings.current
     val authViewModel = nav.koinNavigatorScreenModel<AuthViewModel>()
     val key = authViewModel.key
+    val toast = rememberToasterState()
+    Toaster(toast, richColors = true, darkTheme = true, alignment = Alignment.TopCenter)
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             strings.pay_with_key,
@@ -64,7 +70,13 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(),
             text = strings.key,
             onClick = {
-                authViewModel.pay {
+                authViewModel.pay(onError = { message->
+                    toast.show(
+                        message = message,
+                        type = ToastType.Error,
+                        duration = ToasterDefaults.DurationLong
+                    )
+                }) {
                     nav.replace(MainScreen())
                 }
             },

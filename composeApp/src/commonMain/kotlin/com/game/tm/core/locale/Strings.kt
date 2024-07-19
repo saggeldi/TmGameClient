@@ -49,5 +49,9 @@ data class Strings(
     val errorField: String,
     val paymentDays: String,
     val days: String,
-    val clickToCopy: String
+    val clickToCopy: String,
+    val teamSpeak: String,
+    val local: String,
+    val global: String,
+    val server: String
 )

@@ -92,9 +92,9 @@ internal fun AppTheme(
         LocalThemeIsDark provides isDarkState
     ) {
         val isDark by isDarkState
-        SystemAppearance(!isDark)
+        SystemAppearance(true)
         MaterialTheme(
-            colorScheme = if (isDark) DarkColorScheme else LightColorScheme,
+            colorScheme = DarkColorScheme,
             content = {
                 Surface(content = content, modifier = Modifier.fillMaxSize())
             }
