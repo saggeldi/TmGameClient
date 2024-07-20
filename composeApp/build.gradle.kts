@@ -127,6 +127,7 @@ compose.desktop {
                 iconFile.set(project.file("icons/logo.icns"))
             }
             windows {
+                shortcut = true
                 dirChooser = true
                 perUserInstall = true
                 iconFile.set(project.file("icons/logo.ico"))

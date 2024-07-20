@@ -131,36 +131,39 @@ fun GameItem(
             )
         }
         if(filtered.isNotEmpty()) {
-            val isHovered = rememberSaveable {
-                mutableStateOf(false)
-            }
 
             AnimatedVisibility(open.value) {
-                repeat(filtered.size) {index->
-                    Text(
-                        if(isHovered.value) strings.clickToCopy else filtered[index].display_host + ":" + filtered[index].display_port,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.fillMaxWidth().pointerMoveFilter(
-                            onEnter = {
-                                isHovered.value = true
-                                false
-                            },
-                            onExit = {
-                                isHovered.value = false
-                                false
-                            }
-                        ).clickable {
-                            clipboard.setText(buildAnnotatedString {
-                                append(filtered[index].server_host + ":" + filtered[index].server_port)
-                            })
-                            toaster.show(
-                                message = strings.copied,
-                                duration = ToasterDefaults.DurationShort,
-                                type = ToastType.Success
-                            )
-                        }.padding(6.dp)
-                    )
+                Column {
+                    repeat(filtered.size) {index->
+                        val isHovered = rememberSaveable {
+                            mutableStateOf(false)
+                        }
+
+                        Text(
+                            if(isHovered.value) strings.clickToCopy else filtered[index].display_host + ":" + filtered[index].display_port,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.fillMaxWidth().pointerMoveFilter(
+                                onEnter = {
+                                    isHovered.value = true
+                                    false
+                                },
+                                onExit = {
+                                    isHovered.value = false
+                                    false
+                                }
+                            ).clickable {
+                                clipboard.setText(buildAnnotatedString {
+                                    append(filtered[index].server_host + ":" + filtered[index].server_port)
+                                })
+                                toaster.show(
+                                    message = strings.copied,
+                                    duration = ToasterDefaults.DurationShort,
+                                    type = ToastType.Success
+                                )
+                            }.padding(6.dp)
+                        )
+                    }
                 }
             }
         }
