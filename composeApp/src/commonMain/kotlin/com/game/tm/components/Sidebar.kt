@@ -85,7 +85,7 @@ fun Sidebar(modifier: Modifier, navigator: Navigator, data: CheckPaymentResponse
         ).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        AppLogo()
+        AppLogo(showDescription = false)
         Spacer(Modifier.height(6.dp))
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             TabItem(GameTab)
@@ -155,7 +155,7 @@ fun ProfileItem(navigator: Navigator) {
 }
 
 @Composable
-fun AppLogo(modifier: Modifier = Modifier) {
+fun AppLogo(modifier: Modifier = Modifier, showDescription: Boolean = true) {
     val isDark by LocalThemeIsDark.current
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -177,14 +177,16 @@ fun AppLogo(modifier: Modifier = Modifier) {
                     fontSize = 20.sp
                 )
             )
-            Text(
-                text = LocalStrings.current.app_description,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Light,
-                    fontSize = 12.sp
+            if(showDescription) {
+                Text(
+                    text = LocalStrings.current.app_description,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontWeight = FontWeight.Light,
+                        fontSize = 12.sp
+                    )
                 )
-            )
+            }
         }
     }
 }

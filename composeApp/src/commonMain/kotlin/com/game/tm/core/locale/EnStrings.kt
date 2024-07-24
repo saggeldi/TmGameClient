@@ -4,7 +4,7 @@ import cafe.adriel.lyricist.LyricistStrings
 
 @LyricistStrings(languageTag = Locales.EN)
 internal val EnStrings = Strings(
-    app_name = "TM GAME",
+    app_name = "Elektron Sport",
     app_description = "Play easy with us",
     cyclone = "Cyclone",
     open_github = "Open github",

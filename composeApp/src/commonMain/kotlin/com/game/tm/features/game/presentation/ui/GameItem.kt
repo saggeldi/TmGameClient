@@ -56,6 +56,8 @@ import com.game.tm.state.LocalStrings
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 import tmgame.composeapp.generated.resources.Res
+import tmgame.composeapp.generated.resources.category_game
+import tmgame.composeapp.generated.resources.copy
 import tmgame.composeapp.generated.resources.placeholder
 import tmgame.composeapp.generated.resources.splash
 
@@ -199,9 +201,10 @@ fun GameItem(
                                 }
                             ) {
                                 Icon(
-                                    Icons.Default.Done,
+                                    painter = painterResource(Res.drawable.copy),
                                     contentDescription = "copy",
-                                    tint = MaterialTheme.colorScheme.onSurface
+                                    tint = MaterialTheme.colorScheme.onSurface,
+                                    modifier = Modifier.size(20.dp)
                                 )
                             }
                         }
