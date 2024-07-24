@@ -46,7 +46,7 @@ class MainScreen: Screen {
             AppTheme {
                 GlassBackground {
                     Box(Modifier.padding(16.dp)) {
-                        PaymentScreen()
+                        PaymentScreen(single = true)
                     }
                 }
             }
@@ -54,7 +54,7 @@ class MainScreen: Screen {
             AppTheme {
                 GlassBackground {
                     Box(Modifier.padding(16.dp)) {
-                        PaymentScreen()
+                        PaymentScreen(single = true)
                     }
                 }
             }

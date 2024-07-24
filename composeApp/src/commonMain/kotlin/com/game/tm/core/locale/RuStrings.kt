@@ -2,7 +2,7 @@ package com.game.tm.core.locale
 
 import cafe.adriel.lyricist.LyricistStrings
 
-@LyricistStrings(languageTag = Locales.RU)
+@LyricistStrings(languageTag = Locales.RU, default = true)
 internal val RuStrings = Strings(
     app_name = "TM GAME",
     app_description = "Играй легко с нами",
@@ -53,7 +53,7 @@ internal val RuStrings = Strings(
     paymentDays = "Дни оплаты: ",
     days = "дней",
     clickToCopy = "Нажмите для копирования",
-    teamSpeak = "Команда Speak",
+    teamSpeak = "Team Speak",
     local = "Локальный",
     global = "Глобальный",
     server = "Сервер"

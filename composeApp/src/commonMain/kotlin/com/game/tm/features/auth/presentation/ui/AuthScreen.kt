@@ -54,6 +54,7 @@ import com.dokar.sonner.Toaster
 import com.dokar.sonner.ToasterDefaults
 import com.dokar.sonner.rememberToasterState
 import com.game.tm.Test
+import com.game.tm.components.AppLogo
 import com.game.tm.components.GlassBackground
 import com.game.tm.components.MainScreen
 import com.game.tm.features.auth.presentation.viewmodel.AuthViewModel
@@ -91,7 +92,7 @@ fun AuthScreen() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
-                modifier = Modifier.verticalScroll(rememberScrollState()).weight(1f).wrapContentHeight().padding(30.dp).background(
+                modifier = Modifier.verticalScroll(rememberScrollState()).fillMaxWidth(0.5f).wrapContentHeight().padding(30.dp).background(
                     color = MaterialTheme.colorScheme.background.copy(
                         alpha = 0.6f
                     ),
@@ -100,6 +101,8 @@ fun AuthScreen() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                AppLogo()
+                Spacer(Modifier.height(22.dp))
                 AnimatedContent(index.value) {
                     when (it) {
                         0 -> {
@@ -178,20 +181,6 @@ fun AuthScreen() {
                         }
                     }
                 }
-            }
-
-            Box(
-                modifier = Modifier.weight(1f).fillMaxHeight(),
-                contentAlignment = Alignment.Center
-            ) {
-                val test = Test()
-
-                Image(
-                    painter = painterResource(Res.drawable.auth),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Inside
-                )
             }
 
         }
@@ -396,7 +385,7 @@ fun AuthButton(
             brush = Brush.horizontalGradient(
                 colors = if (selected)
                     listOf(
-                        MaterialTheme.colorScheme.primary,
+                        Color(0xFFF1472C),
                         MaterialTheme.colorScheme.error,
                     )
                 else

@@ -5,7 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GameDetailsApiEntity(
     val assets: List<Asset>,
-    val category: Category,
     val created_at: String,
     val desc_en: String,
     val desc_ru: String,

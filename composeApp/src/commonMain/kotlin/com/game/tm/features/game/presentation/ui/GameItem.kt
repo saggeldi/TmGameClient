@@ -1,6 +1,8 @@
 package com.game.tm.features.game.presentation.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,22 +11,29 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.input.pointer.pointerMoveFilter
 import androidx.compose.ui.layout.ContentScale
@@ -72,9 +81,27 @@ fun GameItem(
         alignment = Alignment.TopCenter,
         darkTheme = true
     )
+    val isHovered = rememberSaveable {
+        mutableStateOf(false)
+    }
+    val scale = remember {
+        mutableStateOf(1f)
+    }
+    val imageScale = animateFloatAsState(scale.value)
 
     Column(
-        modifier.width(200.dp).clip(RoundedCornerShape(12.dp))
+        modifier.width(200.dp).pointerMoveFilter(
+            onEnter = {
+                scale.value = 1.3f
+                isHovered.value = true
+                false
+            },
+            onExit = {
+                scale.value = 1f
+                isHovered.value = false
+                false
+            }
+        ).clip(RoundedCornerShape(12.dp))
             .clickable { onClick() }.background(
                 brush = Brush.linearGradient(
                     colors = listOf(
@@ -93,7 +120,7 @@ fun GameItem(
                     topEnd = 12.dp,
                     topStart = 12.dp
                 )
-            ),
+            ).scale(imageScale.value),
             imageLoader = ImageLoader(context),
             contentScale = ContentScale.FillBounds,
             error = painterResource(Res.drawable.placeholder),
@@ -107,6 +134,19 @@ fun GameItem(
                     fontWeight = FontWeight.W500
                 )
             )
+        }
+
+        AnimatedVisibility(isHovered.value) {
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 12.dp), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+                repeat(game.star) {
+                    androidx.compose.material3.Icon(
+                        Icons.Default.Star,
+                        contentDescription = null,
+                        tint = Color(0xFFEE7A3E),
+                        modifier = Modifier.size(15.dp)
+                    )
+                }
+            }
         }
 
         val filtered = game.server.filter {  authSettings.checkAccess(it.type) }
@@ -135,34 +175,36 @@ fun GameItem(
             AnimatedVisibility(open.value) {
                 Column {
                     repeat(filtered.size) {index->
-                        val isHovered = rememberSaveable {
-                            mutableStateOf(false)
-                        }
 
-                        Text(
-                            if(isHovered.value) strings.clickToCopy else filtered[index].display_host + ":" + filtered[index].display_port,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.fillMaxWidth().pointerMoveFilter(
-                                onEnter = {
-                                    isHovered.value = true
-                                    false
-                                },
-                                onExit = {
-                                    isHovered.value = false
-                                    false
+
+                        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text(
+                                filtered[index].display_host + ":" + filtered[index].display_port,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.weight(1f).padding(6.dp)
+                            )
+
+                            IconButton(
+                                onClick = {
+                                    clipboard.setText(buildAnnotatedString {
+                                        append(filtered[index].server_host + ":" + filtered[index].server_port)
+                                    })
+                                    toaster.show(
+                                        message = strings.copied,
+                                        duration = ToasterDefaults.DurationShort,
+                                        type = ToastType.Success
+                                    )
                                 }
-                            ).clickable {
-                                clipboard.setText(buildAnnotatedString {
-                                    append(filtered[index].server_host + ":" + filtered[index].server_port)
-                                })
-                                toaster.show(
-                                    message = strings.copied,
-                                    duration = ToasterDefaults.DurationShort,
-                                    type = ToastType.Success
+                            ) {
+                                Icon(
+                                    Icons.Default.Done,
+                                    contentDescription = "copy",
+                                    tint = MaterialTheme.colorScheme.onSurface
                                 )
-                            }.padding(6.dp)
-                        )
+                            }
+                        }
                     }
                 }
             }

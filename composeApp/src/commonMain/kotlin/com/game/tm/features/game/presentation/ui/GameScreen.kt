@@ -149,7 +149,7 @@ fun GameScreen() {
                     )
                 },
                 text = {
-                    androidx.compose.material3.Text(strings.local, color = MaterialTheme.colorScheme.onPrimary)
+                    androidx.compose.material3.Text(strings.local)
                 }
             )
             Tab(
@@ -160,7 +160,7 @@ fun GameScreen() {
                     )
                 },
                 text = {
-                    androidx.compose.material3.Text(strings.global, color = MaterialTheme.colorScheme.onPrimary)
+                    androidx.compose.material3.Text(strings.global)
                 }
             )
         }

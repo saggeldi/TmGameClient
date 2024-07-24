@@ -16,7 +16,7 @@ fun GlassBackground(
     Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).background(
         brush = Brush.radialGradient(
             listOf(
-                MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+                MaterialTheme.colorScheme.background,
                 MaterialTheme.colorScheme.background,
             ),
             radius = 1000f,
@@ -26,7 +26,7 @@ fun GlassBackground(
         Box(modifier = Modifier.fillMaxSize().background(
             brush = Brush.radialGradient(
                 listOf(
-                    MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                    MaterialTheme.colorScheme.background.copy(alpha = 0.1f),
                     MaterialTheme.colorScheme.background.copy(alpha = 0.1f),
                 ),
                 radius = 1000f,

@@ -204,11 +204,6 @@ fun GameDetails(id: String) {
                         }
 
                         GameText(
-                            title = strings.category,
-                            content = translateValue(game.category, "name"),
-                        )
-
-                        GameText(
                             title = strings.description,
                             content = translateValue(game, "desc"),
                         )
@@ -249,7 +244,7 @@ fun GameDetails(id: String) {
                             Spacer(Modifier.height(8.dp))
                             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                                 repeat(game.star) {
-                                    Icon(Icons.Default.Star, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                                    Icon(Icons.Default.Star, contentDescription = null, tint = Color(0xFFEE7A3E))
                                 }
                             }
                         }

@@ -95,6 +95,7 @@ internal fun AppTheme(
         SystemAppearance(true)
         MaterialTheme(
             colorScheme = DarkColorScheme,
+            typography = PoppinsTypography(),
             content = {
                 Surface(content = content, modifier = Modifier.fillMaxSize())
             }

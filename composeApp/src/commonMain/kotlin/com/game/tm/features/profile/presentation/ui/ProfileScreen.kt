@@ -72,22 +72,7 @@ fun SettingsItem(
     val expanded = remember {
         mutableStateOf(false)
     }
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(
-                color = MaterialTheme.colorScheme.background.copy(alpha = 0.4f),
-                RoundedCornerShape(12.dp)
-            ).border(0.3.dp, MaterialTheme.colorScheme.onSurface, RoundedCornerShape(12.dp))
-            .padding(12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            title,
-            color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.bodyLarge
-        )
+
         OutlinedButton(
             onClick = {
                 expanded.value = expanded.value.not()
@@ -117,9 +102,37 @@ fun SettingsItem(
                     )
                 }
             }
-        }
+
 
     }
+}
+
+@Composable
+fun LanguageSelect(modifier: Modifier = Modifier) {
+    val strings = LocalStrings.current
+    val language = LocalAppLanguage.current
+    SettingsItem(
+        modifier = modifier,
+        title = strings.language,
+        items = listOf(
+            "TM",
+            "EN",
+            "RU",
+        ),
+        onSelect = { value->
+            when(value) {
+                0 -> {
+                    language.value = "tm"
+                }
+                1 -> {
+                    language.value = "en"
+                }
+                2 -> {
+                    language.value = "ru"
+                }
+            }
+        }
+    )
 }
 
 @Composable
@@ -127,7 +140,7 @@ fun ProfileScreen() {
     val strings = LocalStrings.current
     val isDark = LocalThemeIsDark.current
     val isSystem = isSystemInDarkTheme()
-    val language = LocalAppLanguage.current
+
     val settingsStore = koinInject<AppSettingsStore>()
     Column(
         Modifier.verticalScroll(rememberScrollState()).fillMaxSize().padding(16.dp),
@@ -172,26 +185,6 @@ fun ProfileScreen() {
 //            }
 //        )
 
-        SettingsItem(
-            title = strings.language,
-            items = listOf(
-                "TM",
-                "EN",
-                "RU",
-            ),
-            onSelect = { value->
-                when(value) {
-                    0 -> {
-                        language.value = "tm"
-                    }
-                    1 -> {
-                        language.value = "en"
-                    }
-                    2 -> {
-                        language.value = "ru"
-                    }
-                }
-            }
-        )
+
     }
 }

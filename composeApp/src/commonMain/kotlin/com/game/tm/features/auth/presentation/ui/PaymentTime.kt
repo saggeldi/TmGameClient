@@ -1,6 +1,7 @@
 package com.game.tm.features.auth.presentation.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.game.tm.features.profile.presentation.ui.LanguageSelect
 import com.game.tm.state.LocalPaymentState
 import com.game.tm.state.LocalStrings
 
@@ -33,31 +35,39 @@ fun PaymentTime(
             Box(Modifier.weight(1f)) {
                 actions()
             }
-            Column(
-                verticalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.padding(
-                    vertical = 12.dp,
-                    horizontal = 16.dp
-                ).background(
-                    color = MaterialTheme.colorScheme.primary.copy(
-                        alpha = 0.4f
-                    ),
-                    shape = RoundedCornerShape(8.dp)
-                ).padding(6.dp)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Text(
-                    text = it.user.fullname,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.W500
-                    ),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = "${strings.paymentDays} ${it.days} ${strings.days}",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.W500
-                    ),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                LanguageSelect()
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.padding(
+                        vertical = 12.dp,
+                        horizontal = 16.dp
+                    ).border(
+                        width = 0.7.dp,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        shape = RoundedCornerShape(8.dp)
+                    ).background(
+                        color = MaterialTheme.colorScheme.secondary,
+                        shape = RoundedCornerShape(8.dp)
+                    ).padding(6.dp)
+                ) {
+                    Text(
+                        text = it.user.fullname,
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontWeight = FontWeight.W500
+                        ),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = "${strings.paymentDays} ${it.days} ${strings.days}",
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontWeight = FontWeight.W500
+                        ),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
             }
         }
     }

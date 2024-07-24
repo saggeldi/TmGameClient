@@ -7,7 +7,6 @@ import kotlinx.serialization.Serializable
 data class Game(
     val assets: List<Asset>,
     val server: List<Server>,
-    val category: Category,
     val created_at: String,
     val desc_en: String,
     val desc_ru: String,

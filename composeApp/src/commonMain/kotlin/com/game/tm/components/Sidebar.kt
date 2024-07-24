@@ -89,10 +89,8 @@ fun Sidebar(modifier: Modifier, navigator: Navigator, data: CheckPaymentResponse
         Spacer(Modifier.height(6.dp))
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             TabItem(GameTab)
-            TabItem(CategoryTab)
             TabItem(ServersTab)
             TabItem(TeamSpeakTab)
-            TabItem(ProfileTab)
         }
         ProfileItem(navigator)
 
@@ -107,8 +105,14 @@ fun ProfileItem(navigator: Navigator) {
     val authSettings = koinInject<AuthSettings>()
     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Row(
-            Modifier.fillMaxWidth().background(
-                color = MaterialTheme.colorScheme.primary,
+            Modifier.fillMaxWidth().clip(
+                RoundedCornerShape(12.dp)
+            ).border(
+                width = 0.7.dp,
+                color = MaterialTheme.colorScheme.onSurface,
+                shape = RoundedCornerShape(12.dp)
+            ).background(
+                color = MaterialTheme.colorScheme.secondary,
                 shape = RoundedCornerShape(12.dp)
             ).clickable { navigator.push(PricingScreen()) }.padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -116,20 +120,20 @@ fun ProfileItem(navigator: Navigator) {
             Icon(
                 Icons.Default.Person,
                 contentDescription = null,
-                modifier = Modifier.size(40.dp).border(1.dp, MaterialTheme.colorScheme.onPrimary, CircleShape).padding(6.dp),
-                tint = MaterialTheme.colorScheme.onPrimary
+                modifier = Modifier.size(40.dp).border(1.dp, MaterialTheme.colorScheme.onSurface, CircleShape).padding(6.dp),
+                tint = MaterialTheme.colorScheme.onSurface
             )
             Spacer(Modifier.width(6.dp))
             Column {
                 Text(
                     authSettings.getUserInfo().fullname,
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
                     authSettings.getUserInfo().clientType,
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.bodySmall
                 )
             }
@@ -211,7 +215,9 @@ fun SidebarButton(
     onClick: () -> Unit
 ) {
     val color =
-        if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+        if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(
+            alpha = 0.5f
+        )
     Row(
         modifier = modifier
             .fillMaxWidth()

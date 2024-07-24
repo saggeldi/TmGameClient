@@ -121,7 +121,7 @@ object ServersTab : Tab {
                         tab.value = "LOCAL"
                     },
                     text = {
-                        Text(strings.local, color = MaterialTheme.colorScheme.onPrimary)
+                        Text(strings.local)
                     }
                 )
                 Tab(
@@ -130,7 +130,7 @@ object ServersTab : Tab {
                         tab.value = "GLOBAL"
                     },
                     text = {
-                        Text(strings.global, color = MaterialTheme.colorScheme.onPrimary)
+                        Text(strings.global)
                     }
                 )
             }
