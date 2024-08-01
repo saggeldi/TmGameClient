@@ -295,7 +295,7 @@ fun GameServer(
         Spacer(Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = if(blocked) strings.blocked_server else "${server.display_host}:${server.display_port}",
+                text = if(blocked) strings.blocked_server else server.server_name,
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.W500,

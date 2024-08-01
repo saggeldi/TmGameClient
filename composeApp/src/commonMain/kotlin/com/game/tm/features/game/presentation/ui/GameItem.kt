@@ -182,7 +182,7 @@ fun GameItem(
                         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             Text(
-                                filtered[index].display_host + ":" + filtered[index].display_port,
+                                filtered[index].server_name,
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier.weight(1f).padding(6.dp)

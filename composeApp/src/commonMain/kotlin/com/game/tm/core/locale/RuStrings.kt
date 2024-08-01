@@ -54,7 +54,7 @@ internal val RuStrings = Strings(
     days = "дней",
     clickToCopy = "Нажмите для копирования",
     teamSpeak = "Team Speak",
-    local = "Локальный",
-    global = "Глобальный",
-    server = "Сервер"
+    local = "Локальные",
+    global = "Глобальные",
+    server = "Серверы"
 )

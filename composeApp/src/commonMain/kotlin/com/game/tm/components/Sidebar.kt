@@ -22,9 +22,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -36,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -52,6 +58,7 @@ import com.game.tm.features.profile.presentation.ui.PricingScreen
 import com.game.tm.features.profile.presentation.ui.ProfileTab
 import com.game.tm.features.server.presentation.ui.ServersTab
 import com.game.tm.features.server.presentation.ui.TeamSpeakTab
+import com.game.tm.openUrl
 import com.game.tm.state.LocalAppLanguage
 import com.game.tm.state.LocalStrings
 import com.game.tm.theme.LocalThemeIsDark
@@ -91,9 +98,51 @@ fun Sidebar(modifier: Modifier, navigator: Navigator, data: CheckPaymentResponse
             TabItem(GameTab)
             TabItem(ServersTab)
             TabItem(TeamSpeakTab)
+            Spacer(Modifier.height(22.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                SupportButton(
+                    icon = Icons.Default.Email
+                )
+                Spacer(Modifier.width(12.dp))
+                SupportButton(
+                    icon = Icons.Default.Phone
+                )
+                Spacer(Modifier.width(12.dp))
+                SupportButton(
+                    icon = Icons.Default.Info
+                )
+            }
         }
         ProfileItem(navigator)
 
+    }
+}
+
+@Composable
+fun SupportButton(
+    modifier: Modifier = Modifier,
+    icon: ImageVector
+) {
+    IconButton(
+        onClick = {
+            openUrl("https://elektronsport.com")
+        },
+        modifier = modifier.clip(CircleShape).size(35.dp)
+            .border(1.dp, color = MaterialTheme.colorScheme.onSurface, shape = CircleShape)
+            .background(
+                color = MaterialTheme.colorScheme.secondary,
+                shape = CircleShape
+            ).padding(4.dp)
+    ) {
+        Icon(
+            icon,
+            tint = MaterialTheme.colorScheme.onSurface,
+            contentDescription = "contact"
+        )
     }
 }
 
@@ -120,7 +169,8 @@ fun ProfileItem(navigator: Navigator) {
             Icon(
                 Icons.Default.Person,
                 contentDescription = null,
-                modifier = Modifier.size(40.dp).border(1.dp, MaterialTheme.colorScheme.onSurface, CircleShape).padding(6.dp),
+                modifier = Modifier.size(40.dp)
+                    .border(1.dp, MaterialTheme.colorScheme.onSurface, CircleShape).padding(6.dp),
                 tint = MaterialTheme.colorScheme.onSurface
             )
             Spacer(Modifier.width(6.dp))
@@ -145,10 +195,10 @@ fun ProfileItem(navigator: Navigator) {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-                Text(
-                    strings.logout,
-                    color = MaterialTheme.colorScheme.primary
-                )
+            Text(
+                strings.logout,
+                color = MaterialTheme.colorScheme.primary
+            )
 
         }
     }
@@ -177,7 +227,7 @@ fun AppLogo(modifier: Modifier = Modifier, showDescription: Boolean = true) {
                     fontSize = 20.sp
                 )
             )
-            if(showDescription) {
+            if (showDescription) {
                 Text(
                     text = LocalStrings.current.app_description,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),

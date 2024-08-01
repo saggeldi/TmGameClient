@@ -108,11 +108,11 @@ fun AuthScreen() {
                         0 -> {
                             Login(authViewModel = authViewModel)
                         }
-                        1 -> {
-                            CreateAccount(
-                                authViewModel = authViewModel
-                            )
-                        }
+//                        1 -> {
+//                            CreateAccount(
+//                                authViewModel = authViewModel
+//                            )
+//                        }
                         else -> {
                             PaymentScreen()
                         }
@@ -154,31 +154,31 @@ fun AuthScreen() {
                                 )
                             }
                         }
-                        Spacer(Modifier.width(22.dp))
-                        AuthButton(
-                            loading = authViewModel.signUpState.value.loading,
-                            modifier = Modifier.weight(1f),
-                            text = strings.sign_up,
-                            selected = index.value == 1
-                        ) {
-                            if (index.value != 1){
-                                index.value = 1
-                            } else {
-                                authViewModel.signUp(
-                                    onSuccess = { newUser->
-                                        index.value = 0
-                                    },
-                                    onError = { message->
-                                        toast.show(
-                                            message = message,
-                                            type = ToastType.Error,
-                                            duration = ToasterDefaults.DurationLong
-                                        )
-
-                                    }
-                                )
-                            }
-                        }
+//                        Spacer(Modifier.width(22.dp))
+//                        AuthButton(
+//                            loading = authViewModel.signUpState.value.loading,
+//                            modifier = Modifier.weight(1f),
+//                            text = strings.sign_up,
+//                            selected = index.value == 1
+//                        ) {
+//                            if (index.value != 1){
+//                                index.value = 1
+//                            } else {
+//                                authViewModel.signUp(
+//                                    onSuccess = { newUser->
+//                                        index.value = 0
+//                                    },
+//                                    onError = { message->
+//                                        toast.show(
+//                                            message = message,
+//                                            type = ToastType.Error,
+//                                            duration = ToasterDefaults.DurationLong
+//                                        )
+//
+//                                    }
+//                                )
+//                            }
+//                        }
                     }
                 }
             }

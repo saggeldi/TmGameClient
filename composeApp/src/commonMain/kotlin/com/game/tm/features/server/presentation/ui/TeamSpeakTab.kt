@@ -130,12 +130,6 @@ object TeamSpeakTab : Tab {
                                     ),
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
-                                Spacer(Modifier.height(8.dp))
-                                Text(
-                                    text = item.ipAddress.plus(":").plus(item.port),
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
                                 Spacer(Modifier.height(16.dp))
                                 Button(
                                     modifier = Modifier.fillMaxWidth(),

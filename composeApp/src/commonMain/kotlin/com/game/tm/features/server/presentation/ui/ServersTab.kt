@@ -166,7 +166,7 @@ object ServersTab : Tab {
                                 )
                                 Spacer(Modifier.height(8.dp))
                                 Text(
-                                    text = item.display_host.plus(":").plus(item.display_port),
+                                    text = item.speed.toString().plus(" KB/S"),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
