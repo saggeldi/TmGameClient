@@ -1,0 +1,35 @@
+name: Build and Package MSI Installer
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-msi:
+    name: Build MSI Installer
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: 'gradle'
+        
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Build MSI package
+      run: ./gradlew packageReleaseMsi
+      
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Elektron-Sport-MSI
+        path: build/compose/binaries/main/release/msi/Elektron Sport-1.0.0.msi
+        if-no-files-found: error
