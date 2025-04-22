@@ -34,6 +34,7 @@ import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import coil3.ImageLoader
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
+import com.game.tm.components.RemoteImage
 import com.game.tm.core.translateValue
 import com.game.tm.features.category.data.entity.CategoryApiEntityItem
 import com.game.tm.features.game.presentation.ui.GameTab
@@ -65,8 +66,8 @@ fun CategoryItem(
                 shape = RoundedCornerShape(12.dp)
             )
     ) {
-        AsyncImage(
-            model = item.category.image,
+        RemoteImage(
+            url = item.category.image,
             contentDescription = null,
             modifier = Modifier.width(200.dp).height(250.dp).clip(
                 RoundedCornerShape(
@@ -74,7 +75,6 @@ fun CategoryItem(
                     topStart = 12.dp
                 )
             ),
-            imageLoader = ImageLoader(context),
             contentScale = ContentScale.Crop,
             placeholder = painterResource(Res.drawable.placeholder),
             error = painterResource(Res.drawable.placeholder)
@@ -115,13 +115,12 @@ fun CategoryItem(
                 horizontalArrangement = Arrangement.spacedBy(22.dp)
             ) {
                 items(item.games) { game->
-                    AsyncImage(
-                        model = game.getFirstImage(),
+                    RemoteImage(
+                        url = game.getFirstImage(),
                         contentDescription = null,
                         modifier = Modifier.size(140.dp).clip(RoundedCornerShape(12.dp)).clickable {
                             route.push(GameDetailScreen(game.id.toString()))
                         },
-                        imageLoader = ImageLoader(context),
                         contentScale = ContentScale.Crop,
                         placeholder = painterResource(Res.drawable.placeholder),
                         error = painterResource(Res.drawable.placeholder)

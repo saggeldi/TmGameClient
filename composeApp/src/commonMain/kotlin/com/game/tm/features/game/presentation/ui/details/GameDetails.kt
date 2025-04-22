@@ -59,6 +59,7 @@ import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import com.game.tm.components.AppError
 import com.game.tm.components.AppLoading
+import com.game.tm.components.RemoteImage
 import com.game.tm.core.Constant
 import com.game.tm.core.translateValue
 import com.game.tm.features.auth.presentation.viewmodel.AuthSettings
@@ -145,18 +146,23 @@ fun GameDetails(id: String) {
                 }
                 Row(Modifier.fillMaxSize()) {
                     Column(Modifier.verticalScroll(rememberScrollState()).weight(70f).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                        HorizontalPager(pagerState, pageSpacing = 12.dp, beyondBoundsPageCount = 2) { index->
+                        HorizontalPager(pagerState, pageSpacing = 12.dp, beyondViewportPageCount = 2) { index->
                             Box(modifier = Modifier.fillMaxWidth().height(360.dp)) {
-                                AsyncImage(
-                                    model = "${Constant.BASE_URL}/${images[index].url}",
-                                    imageLoader = ImageLoader(context),
+                                RemoteImage(
+                                    url = "${Constant.BASE_URL}/${images[index].url}",
                                     contentDescription = null,
                                     contentScale = ContentScale.Inside,
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .clip(RoundedCornerShape(32.dp)),
                                     placeholder = painterResource(Res.drawable.placeholder),
-                                    error = painterResource(Res.drawable.placeholder)
+                                    error = painterResource(Res.drawable.placeholder),
+                                    onError = { error->
+                                        println("IMAGE ERROR"+error.toString())
+                                    },
+                                    onSuccess = {
+                                        println("IMAGE LOADED")
+                                    }
                                 )
                                 Box(
                                     Modifier.fillMaxSize().clip(RoundedCornerShape(32.dp)).background(
@@ -187,9 +193,8 @@ fun GameDetails(id: String) {
                             horizontalArrangement = Arrangement.spacedBy(22.dp)
                         ) {
                             items(images.count()) {
-                                AsyncImage(
-                                    model = "${Constant.BASE_URL}/${images[it].url}",
-                                    imageLoader = ImageLoader(context),
+                                RemoteImage(
+                                    url = "${Constant.BASE_URL}/${images[it].url}",
                                     contentDescription = null,
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier.size(140.dp).clip(RoundedCornerShape(12.dp)).clickable {

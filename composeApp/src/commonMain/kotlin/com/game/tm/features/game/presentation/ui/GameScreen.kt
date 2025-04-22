@@ -139,19 +139,8 @@ fun GameScreen() {
 
         TabRow(
             modifier = Modifier.padding(16.dp).clip(RoundedCornerShape(12.dp)),
-            selectedTabIndex = if(request.value.location == "LOCAL") 0 else 1
+            selectedTabIndex = if(request.value.location == "LOCAL") 1 else 0
         )  {
-            Tab(
-                selected = request.value.location == "LOCAL",
-                onClick = {
-                    request.value = request.value.copy(
-                        location = "LOCAL"
-                    )
-                },
-                text = {
-                    androidx.compose.material3.Text(strings.local)
-                }
-            )
             Tab(
                 selected = request.value.location == "GLOBAL",
                 onClick = {
@@ -163,6 +152,18 @@ fun GameScreen() {
                     androidx.compose.material3.Text(strings.global)
                 }
             )
+            Tab(
+                selected = request.value.location == "LOCAL",
+                onClick = {
+                    request.value = request.value.copy(
+                        location = "LOCAL"
+                    )
+                },
+                text = {
+                    androidx.compose.material3.Text(strings.local)
+                }
+            )
+
         }
         Spacer(Modifier.height(16.dp))
 

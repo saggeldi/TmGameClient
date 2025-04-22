@@ -48,6 +48,7 @@ import com.dokar.sonner.ToastType
 import com.dokar.sonner.Toaster
 import com.dokar.sonner.ToasterDefaults
 import com.dokar.sonner.rememberToasterState
+import com.game.tm.components.RemoteImage
 import com.game.tm.core.Constant
 import com.game.tm.core.translateValue
 import com.game.tm.features.auth.presentation.viewmodel.AuthSettings
@@ -114,8 +115,8 @@ fun GameItem(
                 shape = RoundedCornerShape(12.dp)
             )
     ) {
-        AsyncImage(
-            model = "${Constant.BASE_URL}/${game.getFirstImage()}",
+        RemoteImage(
+            url = "${Constant.BASE_URL}/${game.getFirstImage()}",
             contentDescription = null,
             modifier = Modifier.fillMaxWidth().height(300.dp).clip(
                 RoundedCornerShape(
@@ -123,8 +124,7 @@ fun GameItem(
                     topStart = 12.dp
                 )
             ).scale(imageScale.value),
-            imageLoader = ImageLoader(context),
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.Crop,
             error = painterResource(Res.drawable.placeholder),
             placeholder = painterResource(Res.drawable.placeholder),
         )

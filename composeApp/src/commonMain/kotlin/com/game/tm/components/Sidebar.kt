@@ -96,8 +96,9 @@ fun Sidebar(modifier: Modifier, navigator: Navigator, data: CheckPaymentResponse
         Spacer(Modifier.height(6.dp))
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             TabItem(GameTab)
+            TabItem(CategoryTab)
             TabItem(ServersTab)
-            TabItem(TeamSpeakTab)
+
             Spacer(Modifier.height(22.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),

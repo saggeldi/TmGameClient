@@ -31,7 +31,6 @@ kotlin {
             implementation(libs.voyager.tabNavigator)
             implementation(libs.voyager.bottomSheetNavigator)
             implementation(libs.coil)
-            implementation(libs.coil.network.ktor)
             implementation(libs.napier)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.moko.mvvm)
@@ -57,6 +56,8 @@ kotlin {
 
             // toast
             implementation(libs.toast)
+
+            implementation(libs.ktor.client.cio)
         }
 
         commonTest.dependencies {
@@ -68,12 +69,16 @@ kotlin {
 
         }
 
+        appleMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
+
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.okhttp)
             implementation("uk.co.caprica:vlcj:4.8.2")
-            implementation(libs.ktor.client.cio)
+
         }
 
     }
