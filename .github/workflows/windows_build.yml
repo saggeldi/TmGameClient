@@ -30,5 +30,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ElektronSportInstaller
-          path: |
-            build/compose/binaries/main/msi/*.msi
+          path: build/compose/binaries/main-release/msi/*.msi
