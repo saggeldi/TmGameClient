@@ -24,10 +24,10 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build MSI package
-        run: ./gradlew packageReleaseMsi
+        run: ./gradlew :composeApp:packageReleaseMsi
 
       - name: Upload MSI installer
         uses: actions/upload-artifact@v4
         with:
           name: ElektronSportInstaller
-          path: build/compose/binaries/main-release/msi/*.msi
+          path: composeApp/build/compose/binaries/main-release/msi/*.msi
