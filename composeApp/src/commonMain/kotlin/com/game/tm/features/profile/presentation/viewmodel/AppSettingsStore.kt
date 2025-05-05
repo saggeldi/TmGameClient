@@ -24,6 +24,6 @@ class AppSettingsStore(private val settings: Settings) {
     }
 
     fun getLanguage(): String {
-        return settings.getString("language", Locales.RU)
+        return settings.getString("language", Locales.TM)
     }
 }
