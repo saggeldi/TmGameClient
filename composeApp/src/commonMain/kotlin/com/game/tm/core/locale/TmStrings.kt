@@ -2,7 +2,7 @@ package com.game.tm.core.locale
 
 import cafe.adriel.lyricist.LyricistStrings
 
-@LyricistStrings(languageTag = Locales.TM)
+@LyricistStrings(languageTag = Locales.TM, default = true)
 internal val TmStrings = Strings(
     app_name = "Elektron Sport",
     app_description = "Her ýerde elýeterli",
