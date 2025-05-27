@@ -2,6 +2,6 @@ package com.game.tm.core
 
 class Constant {
     companion object {
-        const val BASE_URL = "https://saglykoty.com.tm/api2"
+        const val BASE_URL = "http://localhost:5678"
     }
 }

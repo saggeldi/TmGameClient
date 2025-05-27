@@ -18,6 +18,7 @@ import cafe.adriel.voyager.koin.koinNavigatorScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.TabNavigator
+import com.game.tm.features.auth.presentation.ui.AuthScreen
 import com.game.tm.features.auth.presentation.ui.PaymentScreen
 import com.game.tm.features.auth.presentation.viewmodel.AuthViewModel
 import com.game.tm.features.game.presentation.ui.GameTab
@@ -46,7 +47,7 @@ class MainScreen: Screen {
             AppTheme {
                 GlassBackground {
                     Box(Modifier.padding(16.dp)) {
-                        PaymentScreen(single = true)
+                        AuthScreen()
                     }
                 }
             }
@@ -54,7 +55,7 @@ class MainScreen: Screen {
             AppTheme {
                 GlassBackground {
                     Box(Modifier.padding(16.dp)) {
-                        PaymentScreen(single = true)
+                        AuthScreen()
                     }
                 }
             }

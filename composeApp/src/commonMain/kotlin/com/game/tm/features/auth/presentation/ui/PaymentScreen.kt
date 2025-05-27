@@ -48,6 +48,7 @@ fun PaymentScreen(modifier: Modifier = Modifier, single: Boolean = false) {
     val toast = rememberToasterState()
     Toaster(toast, richColors = true, darkTheme = true, alignment = Alignment.TopCenter)
     Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+
         if(single) {
             Spacer(Modifier.height(22.dp))
             AppLogo()
