@@ -116,19 +116,11 @@ fun LanguageSelect(modifier: Modifier = Modifier) {
         title = strings.language,
         items = listOf(
             "TM",
-            "EN",
-            "RU",
         ),
         onSelect = { value->
             when(value) {
                 0 -> {
                     language.value = "tm"
-                }
-                1 -> {
-                    language.value = "en"
-                }
-                2 -> {
-                    language.value = "ru"
                 }
             }
         }

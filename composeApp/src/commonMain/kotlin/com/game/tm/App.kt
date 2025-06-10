@@ -11,7 +11,6 @@ import com.game.tm.components.MainRoute
 import com.game.tm.core.SettingConfig
 import com.game.tm.core.locale.EnStrings
 import com.game.tm.core.locale.Locales
-import com.game.tm.core.locale.RuStrings
 import com.game.tm.core.locale.Strings
 import com.game.tm.core.locale.TmStrings
 import com.game.tm.features.auth.di.initKoin
@@ -43,7 +42,6 @@ internal fun App(
         translations = mapOf(
             Locales.EN to EnStrings,
             Locales.TM to TmStrings,
-            Locales.RU to RuStrings,
         )
     )
 
@@ -51,7 +49,7 @@ internal fun App(
         val appSettingsStore = koinInject<AppSettingsStore>()
         CompositionLocalProvider(
             LocalAppLanguage provides remember {
-                mutableStateOf(appSettingsStore.getLanguage())
+                mutableStateOf(Locales.TM)
             },
             LocalGameState provides remember {
                 mutableStateOf(GameRequest())
@@ -62,7 +60,7 @@ internal fun App(
             ProvideStrings(lyricist, LocalStrings) {
                 LaunchedEffect(language.value) {
                     appSettingsStore.saveLanguage(language.value)
-                    lyricist.languageTag = language.value
+                    lyricist.languageTag = Locales.TM
                     println(language.value)
                 }
                 MainRoute()
